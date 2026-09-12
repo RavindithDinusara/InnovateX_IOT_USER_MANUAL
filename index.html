@@ -4,24 +4,25 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>INNOVATEX IOT · Customer User Manual</title>
+<meta name="description" content="Setup, operation and care guide for the INNOVATEX IOT Security & Environmental Monitoring System." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
-     DESIGN TOKENS
+     TOKENS
      ============================================================ */
   :root{
     --paper:      #fdfaf3;
     --paper-2:    #ffffff;
-    --paper-edge: #e6dfcf;
+    --paper-3:    #f6f2e8;
 
     --ink:    #1b1915;
     --ink-2:  #46413a;
     --ink-3:  #7d7668;
 
-    --rule:   #ddd5c4;
-    --rule-2: #c8bfa9;
+    --rule:   #e2dbcb;
+    --rule-2: #cbc2ac;
 
     --accent:   #0b6b96;
     --accent-2: #0891b2;
@@ -29,20 +30,13 @@
     --warn:     #b45309;
     --crit:     #b91c1c;
 
-    --desk:     #14171c;
-    --desk-2:   #0b0d10;
+    --cover:     #0a0f14;
+    --cover-2:   #05080b;
+    --cover-ink: #e6edf6;
+    --cover-acc: #38bdf8;
 
-    --cover:    #0a0f14;
-    --cover-2:  #05080b;
-    --cover-ink:#e6edf6;
-    --cover-acc:#38bdf8;
-
-    --page-w: 210mm;
-    --page-h: 297mm;
-    --page-pad-top: 20mm;
-    --page-pad-bottom: 20mm;
-    --page-pad-left: 22mm;
-    --page-pad-right: 20mm;
+    --topbar-h: 62px;
+    --sidebar-w: 276px;
 
     --mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     --sans:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -51,170 +45,350 @@
   }
 
   *,*::before,*::after{ box-sizing:border-box; }
-  html,body{ margin:0; padding:0; }
-
+  html{ scroll-behavior:smooth; }
   body{
+    margin:0;
     font-family:var(--serif);
-    font-size:10.5pt;
-    line-height:1.6;
+    font-size:17px;
+    line-height:1.72;
     color:var(--ink);
-    background:
-      radial-gradient(1400px 800px at 50% -10%, #1c2028 0%, transparent 70%),
-      linear-gradient(180deg, var(--desk), var(--desk-2));
-    background-attachment:fixed;
+    background-color:var(--paper);
+    background-image:radial-gradient(rgba(120,110,90,.055) 1px, transparent 1px);
+    background-size:3px 3px;
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
     text-rendering:optimizeLegibility;
   }
+  img,svg{ display:block; max-width:100%; }
+  a{ color:var(--accent); }
 
-  .book{
-    padding:30px 0 60px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:26px;
+  /* ============================================================
+     TOP BAR
+     ============================================================ */
+  .topbar{
+    position:sticky; top:0; z-index:70;
+    height:var(--topbar-h);
+    display:flex; align-items:center; gap:14px;
+    padding:0 clamp(14px,3vw,26px);
+    background:rgba(9,13,18,.93);
+    -webkit-backdrop-filter:blur(12px);
+            backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(56,189,248,.18);
+    color:var(--cover-ink);
+  }
+  .brand{
+    display:flex; align-items:center; gap:11px;
+    text-decoration:none; color:inherit;
+    min-width:0;
+  }
+  .brand-mark{
+    width:32px; height:32px; flex:none;
+    display:grid; place-items:center;
+    color:var(--cover-acc);
+    background:radial-gradient(circle at 30% 30%, rgba(56,189,248,.28), rgba(56,189,248,.02) 70%);
+    border:1px solid rgba(56,189,248,.34);
+    clip-path:polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  }
+  .brand-mark svg{ width:16px; height:16px; }
+  .brand-text{
+    font-family:var(--mono);
+    font-size:11px; font-weight:700;
+    letter-spacing:.24em; text-transform:uppercase;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .brand-text b{ color:var(--cover-acc); font-weight:700; }
+  .brand-text span{ color:rgba(230,237,246,.5); }
+
+  .topbar-spacer{ flex:1; }
+
+  .topbar-btn{
+    display:inline-flex; align-items:center; gap:7px;
+    padding:7px 13px;
+    font-family:var(--mono);
+    font-size:10px; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase;
+    color:rgba(230,237,246,.78);
+    background:rgba(56,189,248,.07);
+    border:1px solid rgba(56,189,248,.24);
+    border-radius:3px;
+    cursor:pointer;
+    text-decoration:none;
+    transition:background .18s ease, color .18s ease, border-color .18s ease;
+    white-space:nowrap;
+  }
+  .topbar-btn:hover{ background:rgba(56,189,248,.16); color:#fff; border-color:rgba(56,189,248,.5); }
+  .topbar-btn svg{ width:13px; height:13px; }
+
+  .nav-toggle{ display:none; }
+  .nav-toggle span{
+    display:block; width:16px; height:2px; background:currentColor; border-radius:2px;
+    box-shadow:0 -5px 0 currentColor, 0 5px 0 currentColor;
   }
 
-  .book-page{
-    position:relative;
-    width:var(--page-w);
-    height:var(--page-h);
-    padding:
-      var(--page-pad-top)
-      var(--page-pad-right)
-      var(--page-pad-bottom)
-      var(--page-pad-left);
-    background-color:var(--paper);
-    background-image:
-      radial-gradient(rgba(120,110,90,.05) 1px, transparent 1px);
-    background-size:3px 3px;
-    color:var(--ink);
-    border-radius:1px;
-    box-shadow:
-      0 22px 46px rgba(0,0,0,.45),
-      0 3px 8px rgba(0,0,0,.32),
-      inset 0 1px 0 rgba(255,255,255,.65);
-    overflow:hidden;
-    flex:none;
-    display:flex;
-    flex-direction:column;
+  .progress-rail{
+    position:absolute; left:0; right:0; bottom:-1px; height:2px;
+    background:rgba(56,189,248,.10);
+  }
+  .progress-bar{
+    display:block; height:100%; width:0%;
+    background:linear-gradient(90deg, var(--accent), var(--cover-acc));
+    box-shadow:0 0 12px rgba(56,189,248,.55);
+    transition:width .1s linear;
   }
 
-  .book-page::after{
-    content:"";
-    position:absolute; right:0; top:0; bottom:0; width:3px;
-    background:linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,.08));
-    pointer-events:none;
-    border-radius:0 1px 1px 0;
+  /* ============================================================
+     SHELL / LAYOUT
+     ============================================================ */
+  .shell{
+    display:grid;
+    grid-template-columns:var(--sidebar-w) minmax(0,1fr);
+    max-width:1500px;
+    margin:0 auto;
+    align-items:start;
   }
 
-  .page-head{
-    flex:none;
-    display:flex; align-items:baseline; justify-content:space-between;
-    gap:16px;
-    padding-bottom:3mm;
-    margin-bottom:8mm;
+  /* ---------- SIDEBAR ---------- */
+  .toc{
+    position:sticky;
+    top:var(--topbar-h);
+    height:calc(100vh - var(--topbar-h));
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    padding:30px 20px 60px 26px;
+    border-right:1px solid var(--rule);
+    background:linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0));
+    scrollbar-width:thin;
+    scrollbar-color:var(--rule-2) transparent;
+  }
+  .toc::-webkit-scrollbar{ width:8px; }
+  .toc::-webkit-scrollbar-thumb{ background:var(--rule-2); border-radius:8px; border:2px solid transparent; background-clip:content-box; }
+
+  .toc-head{
+    font-family:var(--mono);
+    font-size:10px; font-weight:700;
+    letter-spacing:.3em; text-transform:uppercase;
+    color:var(--ink-3);
+    padding-bottom:10px;
+    margin-bottom:14px;
     border-bottom:1px solid var(--rule);
+  }
+  .toc-group{ margin-bottom:22px; }
+  .toc-label{
     font-family:var(--mono);
-    font-size:7.5pt; font-weight:500;
-    letter-spacing:.2em;
-    text-transform:uppercase;
-    color:var(--ink-3);
-    height:6mm;
+    font-size:9px; font-weight:700;
+    letter-spacing:.24em; text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:7px;
   }
-  .page-head .ph-right{ text-align:right; }
+  .toc a{
+    display:block;
+    position:relative;
+    padding:5px 8px 5px 14px;
+    font-family:var(--sans);
+    font-size:13.5px;
+    line-height:1.4;
+    color:var(--ink-2);
+    text-decoration:none;
+    border-left:2px solid transparent;
+    border-radius:0 3px 3px 0;
+    transition:color .16s ease, background .16s ease, border-color .16s ease;
+  }
+  .toc a::before{
+    content:"";
+    position:absolute; left:4px; top:50%; transform:translateY(-50%);
+    width:3px; height:3px; border-radius:50%;
+    background:var(--rule-2);
+    transition:background .16s ease, transform .16s ease;
+  }
+  .toc a:hover{ color:var(--ink); background:rgba(11,107,150,.06); }
+  .toc a.active{
+    color:var(--accent);
+    font-weight:600;
+    background:rgba(11,107,150,.08);
+    border-left-color:var(--accent);
+  }
+  .toc a.active::before{ background:var(--accent); transform:translateY(-50%) scale(1.5); }
 
-  .page-body{ flex:1; min-height:0; overflow:hidden; }
+  /* ---------- MAIN ---------- */
+  .main{
+    padding:clamp(26px,3.5vw,44px) clamp(18px,4vw,54px) 100px;
+    min-width:0;
+  }
+  .doc{ max-width:880px; margin:0 auto; }
 
-  .page-foot{
-    flex:none;
-    margin-top:6mm;
-    padding-top:3mm;
-    border-top:1px solid var(--rule);
-    display:flex; align-items:center; justify-content:center;
-    height:8mm;
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    border-radius:6px;
+    padding:clamp(30px,5vw,52px);
+    background:
+      radial-gradient(900px 500px at 15% 0%, rgba(56,189,248,.13), transparent 62%),
+      linear-gradient(180deg, #0d1319, var(--cover-2));
+    color:var(--cover-ink);
+    box-shadow:0 20px 44px -22px rgba(0,0,0,.6);
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(56,189,248,.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,.055) 1px, transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 80% at 72% 25%, #000 15%, transparent 78%);
+            mask-image:radial-gradient(ellipse 90% 80% at 72% 25%, #000 15%, transparent 78%);
+  }
+  .hero-inner{ position:relative; z-index:2; }
+
+  .hero-top{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px; flex-wrap:wrap;
+    padding-bottom:20px; margin-bottom:clamp(26px,5vw,44px);
+    border-bottom:1px solid rgba(56,189,248,.18);
+  }
+  .hero-top .cover-mark{
+    width:46px; height:46px; flex:none;
+    display:grid; place-items:center;
+    color:var(--cover-acc);
+    background:radial-gradient(circle at 30% 30%, rgba(56,189,248,.28), rgba(56,189,248,.02) 70%);
+    border:1px solid rgba(56,189,248,.32);
+    clip-path:polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  }
+  .hero-top .cover-mark svg{ width:22px; height:22px; }
+  .hero-imprint{
     font-family:var(--mono);
-    font-size:8pt; letter-spacing:.3em;
-    color:var(--ink-3);
-  }
-  .page-foot .orn{ color:var(--rule-2); letter-spacing:0; font-size:7pt; }
-  .page-foot .folio{
-    font-weight:700; color:var(--ink-2);
-    letter-spacing:.16em; padding:0 4mm;
+    font-size:10px; letter-spacing:.3em; text-transform:uppercase;
+    color:rgba(230,237,246,.55);
+    text-align:right;
+    line-height:1.7;
   }
 
-  .book-page p{
-    margin:0 0 3mm;
+  .hero-kicker{
+    font-family:var(--mono);
+    font-size:11px; letter-spacing:.42em; text-transform:uppercase;
+    color:var(--cover-acc);
+    margin-bottom:18px;
+  }
+  .hero h1{
+    margin:0;
+    font-family:var(--serif);
+    font-weight:700;
+    font-size:clamp(30px,5.4vw,50px);
+    line-height:1.06;
+    letter-spacing:-.018em;
+    color:#fff;
+  }
+  .hero h1 em{ font-style:italic; font-weight:400; color:var(--cover-acc); }
+  .hero-rule{
+    width:70px; height:4px; border-radius:2px;
+    margin:24px 0 20px;
+    background:linear-gradient(90deg, var(--cover-acc), rgba(56,189,248,0));
+  }
+  .hero-sub{
+    max-width:56ch;
+    font-size:clamp(15px,1.6vw,18px);
+    line-height:1.66;
+    color:rgba(230,237,246,.66);
+  }
+
+  .hero-meta{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:1px;
+    margin-top:clamp(28px,4vw,40px);
+    background:rgba(56,189,248,.15);
+    border:1px solid rgba(56,189,248,.15);
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .hero-cell{ padding:14px 16px; background:rgba(5,8,11,.62); }
+  .hero-cell .k{
+    font-family:var(--mono);
+    font-size:9px; letter-spacing:.22em; text-transform:uppercase;
+    color:rgba(230,237,246,.42);
+  }
+  .hero-cell .v{
+    margin-top:6px;
+    font-family:var(--mono);
+    font-size:13px; font-weight:700; letter-spacing:.05em;
+    color:var(--cover-ink);
+  }
+  .hero-cell .v.accent{ color:var(--cover-acc); }
+
+  /* ============================================================
+     SECTIONS
+     ============================================================ */
+  .sec{
+    padding-top:clamp(44px,6vw,68px);
+    scroll-margin-top:calc(var(--topbar-h) + 18px);
+  }
+  .sec + .sec{ border-top:1px solid var(--rule); margin-top:clamp(44px,6vw,68px); padding-top:clamp(44px,6vw,68px); }
+
+  .sec-head{ margin-bottom:26px; }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:10px; font-weight:700;
+    letter-spacing:.32em; text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:10px;
+  }
+  .sec h2{
+    margin:0;
+    font-family:var(--serif);
+    font-size:clamp(25px,3.4vw,34px);
+    font-weight:700;
+    line-height:1.14;
+    letter-spacing:-.014em;
     color:var(--ink);
-    text-align:justify;
-    hyphens:auto;
-    -webkit-hyphens:auto;
   }
-  .book-page p:last-child{ margin-bottom:0; }
-  .book-page p strong{ font-weight:700; }
-  .book-page p em{ font-style:italic; }
+  .orn{
+    display:flex; align-items:center; gap:12px;
+    margin-top:14px;
+    color:var(--rule-2);
+  }
+  .orn span{ flex:none; width:52px; height:1px; background:currentColor; }
+  .orn b{ font-size:9px; color:var(--accent); }
 
-  .lede{ margin-bottom:4mm !important; }
+  .sec h3{
+    margin:34px 0 12px;
+    font-family:var(--sans);
+    font-size:12px; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase;
+    color:var(--ink);
+    display:flex; align-items:center; gap:14px;
+  }
+  .sec h3::after{ content:""; flex:1; height:1px; background:var(--rule); }
+  .sec h3:first-of-type{ margin-top:26px; }
+
+  .sec p{ margin:0 0 16px; color:var(--ink); }
+  .sec p:last-child{ margin-bottom:0; }
+
+  .lede{
+    font-size:18.5px;
+    line-height:1.68;
+    color:var(--ink-2);
+    margin-bottom:22px !important;
+  }
   .lede::first-letter{
     float:left;
     font-family:var(--serif);
     font-weight:700;
-    font-size:38pt;
-    line-height:.82;
-    padding:2mm 2.4mm 0 0;
+    font-size:58px;
+    line-height:.84;
+    padding:6px 10px 0 0;
     color:var(--accent);
     letter-spacing:-.02em;
   }
 
-  .book-page h3{
-    margin:5mm 0 2.5mm;
-    font-family:var(--sans);
-    font-size:9.5pt;
-    font-weight:700;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--ink);
-    display:flex; align-items:center; gap:3mm;
-  }
-  .book-page h3::after{
-    content:"";
-    flex:1; height:1px; background:var(--rule);
-  }
-  .book-page h3:first-child{ margin-top:0; }
-
-  .ch-open{ margin-bottom:6mm; }
-  .ch-eyebrow{
-    font-family:var(--mono);
-    font-size:7.5pt; font-weight:700;
-    letter-spacing:.32em;
-    text-transform:uppercase;
-    color:var(--accent);
-    margin-bottom:2.5mm;
-  }
-  .ch-title{
-    margin:0;
-    font-family:var(--serif);
-    font-size:22pt;
-    font-weight:700;
-    line-height:1.15;
-    letter-spacing:-.012em;
-    color:var(--ink);
-  }
-  .ch-orn{
-    display:flex; align-items:center; gap:3mm;
-    margin-top:3mm;
-    color:var(--rule-2);
-    height:3mm;
-  }
-  .ch-orn span{ flex:none; width:14mm; height:1px; background:currentColor; }
-  .ch-orn b{ font-size:6.5pt; color:var(--accent); letter-spacing:0; }
-
-  ul.list{ list-style:none; margin:0 0 3mm; padding:0; }
+  /* ---------- LISTS ---------- */
+  ul.list{ list-style:none; margin:0 0 18px; padding:0; }
   ul.list li{
     position:relative;
-    padding-left:5.5mm;
-    margin-bottom:1.4mm;
-    line-height:1.55;
+    padding-left:24px;
+    margin-bottom:8px;
+    line-height:1.65;
     color:var(--ink);
   }
   ul.list li::before{
@@ -222,104 +396,98 @@
     position:absolute; left:0; top:0;
     color:var(--ink-3);
     font-family:var(--mono);
-    font-size:8pt;
+    font-size:13px;
   }
-
   ul.list.two{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    column-gap:6mm;
-    row-gap:1mm;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    column-gap:28px; row-gap:2px;
   }
 
+  /* ---------- STEPS ---------- */
   ol.steps{
     list-style:none;
     counter-reset:st;
-    margin:0 0 3mm;
+    margin:0 0 18px;
     padding:0;
   }
   ol.steps > li{
     counter-increment:st;
     position:relative;
-    padding:2mm 0 2mm 12mm;
+    padding:12px 0 12px 52px;
     border-bottom:1px dotted var(--rule-2);
-    line-height:1.55;
+    line-height:1.66;
     color:var(--ink);
   }
   ol.steps > li:last-child{ border-bottom:0; }
   ol.steps > li::before{
     content:counter(st, decimal-leading-zero);
-    position:absolute; left:0; top:2.2mm;
+    position:absolute; left:0; top:13px;
     font-family:var(--mono);
-    font-size:8pt; font-weight:700;
+    font-size:12px; font-weight:700;
     letter-spacing:.05em;
     color:var(--accent);
   }
   ol.steps > li strong{ font-weight:700; }
-
-  ol.steps ul.sub{
-    list-style:none;
-    margin:1.4mm 0 0;
-    padding:0;
-  }
+  ol.steps ul.sub{ list-style:none; margin:8px 0 0; padding:0; }
   ol.steps ul.sub li{
     position:relative;
-    padding-left:4.5mm;
-    margin-bottom:.6mm;
-    font-size:10pt;
-    line-height:1.5;
+    padding-left:18px;
+    margin-bottom:3px;
+    font-size:16px;
+    line-height:1.6;
     color:var(--ink-2);
   }
   ol.steps ul.sub li::before{
     content:"·";
-    position:absolute; left:1mm; top:-1px;
-    font-size:13pt; line-height:1;
+    position:absolute; left:4px; top:-2px;
+    font-size:20px; line-height:1;
     color:var(--ink-3);
   }
 
+  /* ---------- NOTES ---------- */
   .note{
     position:relative;
-    margin:3.5mm 0;
-    padding:3mm 4mm 3mm 4.5mm;
+    margin:24px 0;
+    padding:16px 20px 16px 22px;
     border:1px solid var(--rule);
-    border-left:2.5px solid var(--accent);
+    border-left:3px solid var(--accent);
     background:rgba(11,107,150,.045);
-    border-radius:1px;
-    font-size:10pt;
-    line-height:1.55;
+    border-radius:3px;
+    font-size:16px;
+    line-height:1.64;
     color:var(--ink-2);
   }
   .note-title{
     display:block;
-    margin-bottom:1.4mm;
+    margin-bottom:6px;
     font-family:var(--mono);
-    font-size:7pt; font-weight:700;
-    letter-spacing:.24em;
-    text-transform:uppercase;
+    font-size:9.5px; font-weight:700;
+    letter-spacing:.24em; text-transform:uppercase;
     color:var(--accent);
   }
-  .note p{ margin:0; color:inherit; text-align:left; }
+  .note p{ margin:0; color:inherit; }
+  .note p + p{ margin-top:8px; }
 
-  .note--ok{ border-left-color:var(--ok); background:rgba(21,128,61,.05); }
+  .note--ok{ border-left-color:var(--ok); background:rgba(21,128,61,.055); }
   .note--ok .note-title{ color:var(--ok); }
   .note--warn{ border-left-color:var(--warn); background:rgba(180,83,9,.06); }
   .note--warn .note-title{ color:var(--warn); }
   .note--crit{ border-left-color:var(--crit); background:rgba(185,28,28,.06); }
   .note--crit .note-title{ color:var(--crit); }
-  .note--info{ border-left-color:var(--accent); }
-  .note--info .note-title{ color:var(--accent); }
 
+  /* ---------- PILLS ---------- */
   .pill{
     display:inline-block;
-    padding:.3mm 2mm;
-    margin:0 1mm 1mm 0;
+    padding:2px 9px;
+    margin:0 3px 3px 0;
     border:1px solid var(--rule-2);
-    border-radius:1px;
+    border-radius:3px;
     font-family:var(--mono);
-    font-size:7.8pt; font-weight:700;
-    letter-spacing:.14em;
+    font-size:11.5px; font-weight:700;
+    letter-spacing:.12em;
     color:var(--ink-2);
-    background:rgba(255,255,255,.6);
+    background:rgba(255,255,255,.7);
     white-space:nowrap;
   }
   .pill.ok{   color:var(--ok);   border-color:rgba(21,128,61,.42);  background:rgba(21,128,61,.07); }
@@ -327,455 +495,383 @@
   .pill.crit{ color:var(--crit); border-color:rgba(185,28,28,.45);  background:rgba(185,28,28,.08); }
   .pill.accent{ color:var(--accent); border-color:rgba(11,107,150,.42); background:rgba(11,107,150,.07); }
 
+  /* ---------- TABLES ---------- */
   .tbl-wrap{
-    margin:3mm 0;
-    border-top:1.5px solid var(--ink-2);
-    border-bottom:1.5px solid var(--ink-2);
-    overflow:hidden;
+    margin:24px 0;
+    border-top:2px solid var(--ink-2);
+    border-bottom:2px solid var(--ink-2);
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
   }
-  table{ width:100%; border-collapse:collapse; }
+  table{ width:100%; border-collapse:collapse; min-width:520px; }
   thead th{
     text-align:left;
-    padding:2mm 3mm 2mm 0;
+    padding:12px 18px 12px 0;
     font-family:var(--mono);
-    font-size:7pt; font-weight:700;
-    letter-spacing:.2em;
-    text-transform:uppercase;
+    font-size:9.5px; font-weight:700;
+    letter-spacing:.2em; text-transform:uppercase;
     color:var(--ink-2);
     border-bottom:1px solid var(--rule-2);
     white-space:nowrap;
   }
   thead th:first-child{ padding-left:0; }
   thead th:last-child{ padding-right:0; }
-
   tbody td{
-    padding:2mm 3mm 2mm 0;
+    padding:13px 18px 13px 0;
     border-bottom:1px solid var(--rule);
-    font-size:9.6pt;
-    line-height:1.45;
+    font-size:15.5px;
+    line-height:1.55;
     color:var(--ink);
     vertical-align:top;
   }
   tbody td:first-child{
     padding-left:0;
     font-family:var(--mono);
-    font-size:8.4pt;
-    font-weight:500;
-    letter-spacing:.01em;
+    font-size:13px; font-weight:500;
+    white-space:nowrap;
   }
   tbody td:last-child{ padding-right:0; }
   tbody tr:last-child td{ border-bottom:0; }
+  tbody tr:hover{ background:rgba(11,107,150,.035); }
 
+  /* ---------- STATUS LIST ---------- */
   .status-list{
-    margin:3mm 0;
-    border-top:1.5px solid var(--ink-2);
-    border-bottom:1.5px solid var(--ink-2);
+    margin:24px 0;
+    border-top:2px solid var(--ink-2);
+    border-bottom:2px solid var(--ink-2);
   }
   .status-card{
     display:grid;
     grid-template-columns:auto 1fr;
-    gap:.5mm 4mm;
-    padding:2.2mm 0;
+    gap:2px 18px;
+    padding:16px 0;
     border-bottom:1px solid var(--rule);
   }
   .status-card:last-child{ border-bottom:0; }
   .sc-marker{
     grid-row:1 / span 3;
-    width:7px; height:7px;
-    margin-top:2mm;
+    width:10px; height:10px;
+    margin-top:7px;
     border-radius:50%;
     background:var(--ink-3);
-    flex:none;
   }
   .sc-name{
     font-family:var(--mono);
-    font-size:8.8pt; font-weight:700;
+    font-size:13px; font-weight:700;
     letter-spacing:.14em;
     color:var(--ink);
     align-self:center;
   }
-  .sc-desc{ font-size:9.6pt; line-height:1.5; color:var(--ink-2); }
+  .sc-desc{ font-size:15.5px; line-height:1.6; color:var(--ink-2); }
   .sc-action{
     font-family:var(--mono);
-    font-size:6.8pt;
-    letter-spacing:.14em;
-    text-transform:uppercase;
+    font-size:10px; letter-spacing:.14em; text-transform:uppercase;
     color:var(--ink-3);
-    padding-top:.3mm;
+    padding-top:4px;
   }
-  .status-card.ok .sc-marker{ background:var(--ok); box-shadow:0 0 0 2px rgba(21,128,61,.12); }
+  .status-card.ok .sc-marker{ background:var(--ok); box-shadow:0 0 0 3px rgba(21,128,61,.12); }
   .status-card.ok .sc-name{ color:var(--ok); }
-  .status-card.warn .sc-marker{ background:var(--warn); box-shadow:0 0 0 2px rgba(180,83,9,.12); }
+  .status-card.warn .sc-marker{ background:var(--warn); box-shadow:0 0 0 3px rgba(180,83,9,.12); }
   .status-card.warn .sc-name{ color:var(--warn); }
-  .status-card.crit .sc-marker{ background:var(--crit); box-shadow:0 0 0 2px rgba(185,28,28,.14); }
+  .status-card.crit .sc-marker{ background:var(--crit); box-shadow:0 0 0 3px rgba(185,28,28,.14); }
   .status-card.crit .sc-name{ color:var(--crit); }
-  .status-card.idle .sc-marker{ background:#8a9199; box-shadow:0 0 0 2px rgba(120,130,140,.12); }
+  .status-card.idle .sc-marker{ background:#8a9199; box-shadow:0 0 0 3px rgba(120,130,140,.12); }
 
+  /* ---------- FLOW ---------- */
   .flow{
-    margin:3mm 0;
-    padding:0;
+    margin:24px 0;
     border-top:1px solid var(--rule);
     border-bottom:1px solid var(--rule);
   }
   .flow-step{
-    display:flex; align-items:center; gap:4mm;
-    padding:1.6mm 0;
+    display:flex; align-items:center; gap:18px;
+    padding:11px 0;
     border-bottom:1px dotted var(--rule-2);
     font-family:var(--mono);
-    font-size:9pt;
-    letter-spacing:.05em;
+    font-size:14px;
+    letter-spacing:.04em;
     color:var(--ink-2);
   }
   .flow-step:last-child{ border-bottom:0; }
   .flow-step b{
     flex:none;
-    font-size:7pt; font-weight:700;
+    font-size:10.5px; font-weight:700;
     letter-spacing:.16em;
     color:var(--accent);
-    min-width:6mm;
+    min-width:24px;
   }
   .flow-step span{ flex:1; }
 
+  /* ---------- QUICK REF GRID ---------- */
   .qref{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:0;
-    margin:3mm 0;
-    border-top:1.5px solid var(--ink-2);
-    border-bottom:1.5px solid var(--ink-2);
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    margin:24px 0;
+    border-top:2px solid var(--ink-2);
+    border-bottom:2px solid var(--ink-2);
   }
   .qcard{
-    padding:3mm 4mm 3mm 0;
+    padding:18px 22px 18px 0;
     border-bottom:1px solid var(--rule);
-    border-right:1px solid var(--rule);
   }
-  .qcard:nth-child(2n){ padding-left:4mm; border-right:0; }
   .qcard h4{
-    margin:0 0 1.4mm;
+    margin:0 0 6px;
     font-family:var(--mono);
-    font-size:7pt; font-weight:700;
-    letter-spacing:.2em;
-    text-transform:uppercase;
+    font-size:9.5px; font-weight:700;
+    letter-spacing:.2em; text-transform:uppercase;
     color:var(--accent);
   }
-  .qcard p{
-    margin:0;
-    font-size:9.6pt;
-    line-height:1.55;
-    color:var(--ink-2);
-    text-align:left;
-  }
+  .qcard p{ margin:0; font-size:15.5px; line-height:1.6; color:var(--ink-2); }
   .qcard.ok h4{ color:var(--ok); }
   .qcard.warn h4{ color:var(--warn); }
   .qcard.crit h4{ color:var(--crit); }
 
-  /* ---------- COVER ---------- */
-  .cover{
-    background:
-      radial-gradient(900px 500px at 20% 0%, rgba(56,189,248,.10), transparent 65%),
-      linear-gradient(180deg, #0d1319, var(--cover-2));
-    color:var(--cover-ink);
-    padding:0;
-    display:block;
-    overflow:hidden;
-  }
-  .cover::before{
-    content:"";
-    position:absolute; left:0; top:0; bottom:0; width:12mm;
-    background:linear-gradient(90deg, rgba(0,0,0,.55), transparent);
-    border-right:1px solid rgba(56,189,248,.10);
-    pointer-events:none;
-    z-index:2;
-  }
-  .cover::after{
-    content:"";
-    position:absolute; inset:0; pointer-events:none;
-    background-image:
-      linear-gradient(rgba(56,189,248,.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(56,189,248,.05) 1px, transparent 1px);
-    background-size:12mm 12mm;
-    -webkit-mask-image:radial-gradient(ellipse 90% 80% at 70% 30%, #000 20%, transparent 78%);
-            mask-image:radial-gradient(ellipse 90% 80% at 70% 30%, #000 20%, transparent 78%);
-    opacity:.9;
-    z-index:1;
-  }
-
-  .cover-inner{
-    position:relative; z-index:3;
-    height:100%;
-    padding:22mm 22mm 22mm 28mm;
-    display:flex; flex-direction:column;
-  }
-
-  .cover-top{
-    display:flex; align-items:center; justify-content:space-between;
-    gap:6mm;
-    padding-bottom:7mm;
-    border-bottom:1px solid rgba(56,189,248,.18);
-  }
-  .cover-mark{
-    width:13mm; height:13mm; flex:none;
-    display:grid; place-items:center;
-    color:var(--cover-acc);
-    background:radial-gradient(circle at 30% 30%, rgba(56,189,248,.28), rgba(56,189,248,.02) 70%);
-    border:1px solid rgba(56,189,248,.32);
-    clip-path:polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-  }
-  .cover-mark svg{ width:6.5mm; height:6.5mm; }
-  .cover-imprint{
-    font-family:var(--mono);
-    font-size:7pt; letter-spacing:.34em;
-    text-transform:uppercase;
-    color:rgba(230,237,246,.55);
-    text-align:right;
-  }
-
-  .cover-main{
-    flex:1;
-    display:flex; flex-direction:column; justify-content:center;
-    padding:22mm 0;
-  }
-  .cover-kicker{
-    font-family:var(--mono);
-    font-size:8pt; letter-spacing:.42em;
-    text-transform:uppercase;
-    color:var(--cover-acc);
-    margin-bottom:8mm;
-  }
-  .cover-title{
-    margin:0;
-    font-family:var(--serif);
-    font-weight:700;
-    font-size:34pt;
-    line-height:1.05;
-    letter-spacing:-.018em;
-    color:#fff;
-  }
-  .cover-title em{
-    font-style:italic;
-    color:var(--cover-acc);
-    font-weight:400;
-  }
-  .cover-rule{
-    width:24mm; height:1mm;
-    margin:9mm 0 6mm;
-    background:linear-gradient(90deg, var(--cover-acc), rgba(56,189,248,0));
-    border-radius:1px;
-  }
-  .cover-sub{
-    max-width:110mm;
-    font-family:var(--serif);
-    font-size:11pt;
-    line-height:1.6;
-    color:rgba(230,237,246,.62);
-  }
-
-  .cover-bottom{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:1px;
-    background:rgba(56,189,248,.14);
-    border:1px solid rgba(56,189,248,.14);
-    border-radius:1px;
-    overflow:hidden;
-  }
-  .cover-cell{
-    padding:3.5mm 4mm;
-    background:rgba(5,8,11,.6);
-  }
-  .cover-cell .k{
-    font-family:var(--mono);
-    font-size:6.5pt; letter-spacing:.24em;
-    text-transform:uppercase;
-    color:rgba(230,237,246,.42);
-  }
-  .cover-cell .v{
-    margin-top:1.4mm;
-    font-family:var(--mono);
-    font-size:9pt; font-weight:700;
-    letter-spacing:.06em;
-    color:var(--cover-ink);
-  }
-  .cover-cell .v.accent{ color:var(--cover-acc); }
-
-  /* ---------- FILL-IN FORM ---------- */
+  /* ---------- FILL-IN FIELDS ---------- */
   .fill{
     display:grid;
-    gap:5mm 8mm;
-    margin-top:5mm;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:18px 30px;
+    margin-top:20px;
   }
-  .fill-line{ display:flex; align-items:flex-end; gap:2.5mm; }
+  .fill-line{ display:flex; align-items:flex-end; gap:12px; }
   .fill-line label{
     flex:none;
     font-family:var(--mono);
-    font-size:7pt; font-weight:700;
-    letter-spacing:.16em;
-    text-transform:uppercase;
+    font-size:9.5px; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase;
     color:var(--ink-3);
-    padding-bottom:.5mm;
-    min-width:24mm;
+    padding-bottom:5px;
+    min-width:84px;
   }
-  .fill-line .rule{
-    flex:1;
+  .fill-line input{
+    flex:1; min-width:0;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink);
+    background:transparent;
+    border:0;
     border-bottom:1px dotted var(--rule-2);
-    height:5mm;
-    min-width:10mm;
+    padding:4px 2px;
+    outline:none;
+    transition:border-color .18s ease;
   }
+  .fill-line input:focus{ border-bottom-color:var(--accent); }
 
-  /* ---------- BACK COVER ---------- */
-  .back-cover{
+  /* ============================================================
+     END MATTER
+     ============================================================ */
+  .endnote{
+    position:relative;
+    overflow:hidden;
+    margin-top:clamp(56px,8vw,90px);
+    border-radius:6px;
+    padding:clamp(28px,4.5vw,44px);
     background:
-      radial-gradient(900px 500px at 80% 100%, rgba(56,189,248,.10), transparent 65%),
+      radial-gradient(900px 500px at 80% 100%, rgba(56,189,248,.12), transparent 62%),
       linear-gradient(180deg, var(--cover-2), #0d1319);
     color:var(--cover-ink);
-    padding:0;
-    display:block;
-    overflow:hidden;
   }
-  .back-cover::before{
+  .endnote::after{
     content:"";
     position:absolute; inset:0; pointer-events:none;
     background-image:
-      linear-gradient(rgba(56,189,248,.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(56,189,248,.04) 1px, transparent 1px);
-    background-size:12mm 12mm;
-    -webkit-mask-image:radial-gradient(ellipse 90% 80% at 30% 70%, #000 15%, transparent 75%);
-            mask-image:radial-gradient(ellipse 90% 80% at 30% 70%, #000 15%, transparent 75%);
+      linear-gradient(rgba(56,189,248,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,.045) 1px, transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 80% at 30% 70%, #000 15%, transparent 78%);
+            mask-image:radial-gradient(ellipse 90% 80% at 30% 70%, #000 15%, transparent 78%);
   }
-  .back-cover-inner{
-    position:relative; z-index:2;
-    height:100%;
-    padding:26mm 24mm;
-    display:flex; flex-direction:column;
-    gap:8mm;
-  }
-  .bc-top{
-    display:flex; align-items:center; gap:4mm;
-    padding-bottom:6mm;
+  .endnote-inner{ position:relative; z-index:2; }
+  .endnote-head{
+    display:flex; align-items:center; gap:14px;
+    padding-bottom:22px; margin-bottom:26px;
     border-bottom:1px solid rgba(56,189,248,.18);
   }
-  .bc-mark{
-    width:11mm; height:11mm; flex:none;
+  .endnote-head .bc-mark{
+    width:42px; height:42px; flex:none;
     display:grid; place-items:center;
     color:var(--cover-acc);
     border:1px solid rgba(56,189,248,.32);
-    border-radius:1px;
+    border-radius:3px;
   }
-  .bc-mark svg{ width:5mm; height:5mm; }
-  .bc-imprint{
+  .endnote-head .bc-mark svg{ width:20px; height:20px; }
+  .endnote-head .bc-imprint{
     font-family:var(--mono);
-    font-size:7pt; letter-spacing:.3em;
-    text-transform:uppercase;
-    color:rgba(230,237,246,.55);
+    font-size:10px; letter-spacing:.3em; text-transform:uppercase;
+    color:rgba(230,237,246,.58);
   }
-  .bc-body{
-    max-width:140mm;
-    font-size:11pt;
+  .endnote p{
+    max-width:64ch;
+    margin:0 0 16px;
+    font-size:16px;
     line-height:1.7;
-    color:rgba(230,237,246,.7);
+    color:rgba(230,237,246,.72);
   }
-  .bc-bottom{
-    margin-top:auto;
-    display:flex; justify-content:space-between; align-items:center;
-    gap:4mm; flex-wrap:wrap;
-    padding-top:6mm;
+  .endnote-foot{
+    margin-top:30px; padding-top:20px;
     border-top:1px solid rgba(56,189,248,.14);
+    display:flex; justify-content:space-between; align-items:center;
+    gap:14px; flex-wrap:wrap;
     font-family:var(--mono);
-    font-size:7pt; letter-spacing:.24em;
-    text-transform:uppercase;
+    font-size:9.5px; letter-spacing:.24em; text-transform:uppercase;
     color:rgba(230,237,246,.45);
   }
-  .bc-bottom .end{ color:var(--cover-acc); }
+  .endnote-foot .end{ color:var(--cover-acc); }
 
-  .print-tip{
-    position:fixed; right:20px; bottom:20px; z-index:100;
-    display:flex; gap:10px; align-items:center;
-    padding:10px 14px;
-    background:rgba(13,19,27,.95);
-    border:1px solid rgba(56,189,248,.35);
-    border-radius:3px;
-    color:#cfe9ff;
+  .site-foot{
+    max-width:880px;
+    margin:0 auto;
+    padding:34px 0 0;
+    display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
     font-family:var(--mono);
-    font-size:10px; letter-spacing:.14em;
-    text-transform:uppercase;
-    box-shadow:0 12px 30px rgba(0,0,0,.5);
+    font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--ink-3);
   }
-  .print-tip b{ color:#38bdf8; font-weight:700; }
-
-  @media (max-width: 860px){ .book-page{ zoom: .88; } }
-  @media (max-width: 760px){ .book-page{ zoom: .78; } }
-  @media (max-width: 660px){ .book-page{ zoom: .68; } }
-  @media (max-width: 560px){ .book-page{ zoom: .58; } }
-  @media (max-width: 460px){ .book-page{ zoom: .48; } }
-  @media (max-width: 380px){ .book-page{ zoom: .4; } }
 
   /* ============================================================
-     PRINT — exact A4, one page per sheet
+     BACK TO TOP
+     ============================================================ */
+  .totop{
+    position:fixed; right:22px; bottom:22px; z-index:65;
+    width:44px; height:44px;
+    display:grid; place-items:center;
+    border-radius:50%;
+    border:1px solid rgba(56,189,248,.35);
+    background:rgba(10,15,20,.92);
+    -webkit-backdrop-filter:blur(8px);
+            backdrop-filter:blur(8px);
+    color:var(--cover-acc);
+    cursor:pointer;
+    opacity:0; visibility:hidden;
+    transform:translateY(10px);
+    transition:opacity .24s ease, transform .24s ease, visibility .24s;
+    box-shadow:0 12px 28px rgba(0,0,0,.4);
+  }
+  .totop.show{ opacity:1; visibility:visible; transform:none; }
+  .totop:hover{ background:rgba(56,189,248,.18); }
+  .totop svg{ width:17px; height:17px; }
+
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
+  .backdrop{
+    position:fixed; inset:var(--topbar-h) 0 0 0;
+    background:rgba(8,11,15,.55);
+    -webkit-backdrop-filter:blur(2px);
+            backdrop-filter:blur(2px);
+    opacity:0; visibility:hidden;
+    transition:opacity .25s ease, visibility .25s;
+    z-index:54;
+  }
+  .backdrop.show{ opacity:1; visibility:visible; }
+
+  @media (max-width:1080px){
+    .shell{ grid-template-columns:1fr; }
+    .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; width:38px; height:34px; padding:0; }
+    .toc{
+      position:fixed;
+      top:var(--topbar-h); left:0; bottom:0;
+      width:290px; height:auto;
+      z-index:56;
+      background:var(--paper-2);
+      border-right:1px solid var(--rule);
+      box-shadow:0 20px 50px rgba(0,0,0,.25);
+      transform:translateX(-102%);
+      transition:transform .3s cubic-bezier(.4,0,.2,1);
+      padding-top:24px;
+    }
+    .toc.open{ transform:none; }
+    .hero-meta{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  }
+
+  @media (max-width:640px){
+    body{ font-size:16px; }
+    .lede{ font-size:17px; }
+    .lede::first-letter{ font-size:48px; }
+    .toc a{ font-size:14px; padding-top:7px; padding-bottom:7px; }
+    ol.steps > li{ padding-left:42px; }
+    .status-card{ gap:2px 14px; }
+    .qcard{ padding-right:0; }
+    .endnote-foot{ font-size:9px; letter-spacing:.16em; }
+    .totop{ right:14px; bottom:14px; }
+    .topbar-btn .label{ display:none; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    *{ transition-duration:.01ms !important; animation-duration:.01ms !important; }
+  }
+
+  /* ============================================================
+     PRINT
      ============================================================ */
   @media print{
-    @page{ size: A4; margin: 0; }
+    @page{ size:A4; margin:16mm 14mm; }
 
-    html, body{
-      margin:0 !important; padding:0 !important;
+    html,body{
       background:#fff !important;
-    }
-    body{ font-size:10.5pt; }
-    .print-tip{ display:none !important; }
-
-    .book{
-      display:block;
-      padding:0 !important; margin:0 !important;
-      gap:0 !important; max-width:none !important;
-    }
-
-    .book-page{
-      width:210mm !important;
-      height:297mm !important;
-      margin:0 !important;
-      padding:20mm 20mm 20mm 22mm !important;
-      border-radius:0 !important;
-      box-shadow:none !important;
-      background-color:#fff !important;
       background-image:none !important;
       color:#000 !important;
-      page-break-after:always;
-      page-break-inside:avoid;
-      overflow:hidden;
-      zoom:1 !important;
-      break-after:page;
+      font-size:10.5pt;
+      line-height:1.55;
     }
-    .book-page:last-of-type{ page-break-after:auto; break-after:auto; }
-    .book-page::after{ display:none !important; }
+    .topbar, .toc, .totop, .backdrop, .progress-rail{ display:none !important; }
 
-    .book-page p{ color:#000; }
-    .lede::first-letter{ color:#0b6b96; }
+    .shell{ display:block; max-width:none; }
+    .main{ padding:0 !important; }
+    .doc{ max-width:none; }
 
-    .page-head{ color:#555; border-bottom:1px solid #999; }
-    .page-foot{ color:#555; border-top:1px solid #999; }
-    .page-foot .folio{ color:#000; }
-    .page-foot .orn{ color:#bbb; }
+    .hero, .endnote{
+      background:#fff !important;
+      background-image:none !important;
+      color:#000 !important;
+      border:1.5px solid #000;
+      box-shadow:none !important;
+      border-radius:0;
+      padding:14mm 12mm;
+      page-break-inside:avoid;
+    }
+    .hero::after, .endnote::after{ display:none !important; }
+    .hero h1{ color:#000 !important; font-size:26pt; }
+    .hero h1 em{ color:#0b6b96 !important; }
+    .hero-kicker, .eyebrow{ color:#0b6b96 !important; }
+    .hero-sub, .endnote p{ color:#333 !important; }
+    .hero-rule{ background:#0b6b96 !important; }
+    .hero-top, .endnote-head{ border-bottom-color:#999 !important; }
+    .hero-imprint, .endnote-head .bc-imprint{ color:#555 !important; }
+    .hero-cell{ background:#fff !important; }
+    .hero-cell .k{ color:#555 !important; }
+    .hero-cell .v{ color:#000 !important; }
+    .hero-cell .v.accent{ color:#0b6b96 !important; }
+    .hero-meta{ background:#ccc !important; border-color:#999 !important; }
+    .hero-top .cover-mark, .endnote-head .bc-mark{ color:#0b6b96 !important; border-color:#0b6b96 !important; background:#fff !important; }
+    .endnote-foot{ color:#555 !important; border-top-color:#999 !important; }
+    .endnote-foot .end{ color:#0b6b96 !important; }
 
-    .ch-eyebrow{ color:#0b6b96; }
-    .ch-title{ color:#000; }
-    .ch-orn{ color:#bbb; }
-    .ch-orn b{ color:#0b6b96; }
+    .sec{ padding-top:8mm !important; margin-top:0 !important; border-top:0 !important; }
+    .sec + .sec{ border-top:1px solid #ccc !important; margin-top:8mm !important; padding-top:8mm !important; }
+    .sec-head{ page-break-after:avoid; }
 
-    .book-page h3{ color:#000; }
-    .book-page h3::after{ background:#ccc; }
+    .sec h2{ color:#000 !important; font-size:19pt; }
+    .sec h3{ color:#000 !important; }
+    .sec h3::after{ background:#ccc !important; }
+    .orn{ color:#bbb !important; }
+    .orn b{ color:#0b6b96 !important; }
+    .lede{ font-size:11pt; color:#222 !important; }
+    .lede::first-letter{ color:#0b6b96 !important; }
 
-    ul.list li::before{ color:#888; }
-    ol.steps > li::before{ color:#0b6b96; }
-    ol.steps > li{ border-bottom-color:#ddd; }
-    ol.steps ul.sub li{ color:#333; }
+    ul.list li::before{ color:#888 !important; }
+    ol.steps > li{ border-bottom-color:#ddd !important; }
+    ol.steps > li::before{ color:#0b6b96 !important; }
+    ol.steps ul.sub li{ color:#333 !important; }
 
     .note{
       background:#f6f6f6 !important;
       border:1px solid #ccc !important;
-      border-left:2.5px solid #0b6b96 !important;
+      border-left:3px solid #0b6b96 !important;
       color:#000 !important;
-      -webkit-print-color-adjust:exact;
-      print-color-adjust:exact;
+      -webkit-print-color-adjust:exact; print-color-adjust:exact;
+      page-break-inside:avoid;
     }
     .note--ok{ border-left-color:#15803d !important; background:#f2f8f3 !important; }
     .note--warn{ border-left-color:#b45309 !important; background:#faf5ec !important; }
@@ -786,8 +882,8 @@
     .note--crit .note-title{ color:#b91c1c !important; }
 
     .pill{
-      background:#eee !important; color:#333 !important;
-      border-color:#bbb !important;
+      background:#eee !important; color:#333 !important; border-color:#bbb !important;
+      font-size:9pt;
       -webkit-print-color-adjust:exact; print-color-adjust:exact;
     }
     .pill.ok{ color:#15803d !important; }
@@ -795,20 +891,19 @@
     .pill.crit{ color:#b91c1c !important; }
     .pill.accent{ color:#0b6b96 !important; }
 
+    .tbl-wrap{ border-top:1.5px solid #333 !important; border-bottom:1.5px solid #333 !important; overflow:visible; page-break-inside:avoid; }
+    table{ min-width:0; }
     thead th{ color:#000 !important; border-bottom:1.5px solid #333 !important; }
-    tbody td{ border-bottom:1px solid #ccc !important; color:#000 !important; }
-    .tbl-wrap{ border-top-color:#333; border-bottom-color:#333; }
+    tbody td{ border-bottom:1px solid #ccc !important; color:#000 !important; font-size:9.8pt; }
+    tbody tr:hover{ background:transparent !important; }
 
-    .status-list{ border-color:#333; }
-    .status-card{ border-bottom-color:#ddd; }
-    .sc-marker{
-      -webkit-print-color-adjust:exact; print-color-adjust:exact;
-      box-shadow:none !important; border:1px solid #333;
-    }
-    .status-card.ok .sc-marker{ background:#15803d !important; border-color:#15803d; }
-    .status-card.warn .sc-marker{ background:#b45309 !important; border-color:#b45309; }
-    .status-card.crit .sc-marker{ background:#b91c1c !important; border-color:#b91c1c; }
-    .status-card.idle .sc-marker{ background:#888 !important; border-color:#888; }
+    .status-list{ border-color:#333 !important; page-break-inside:avoid; }
+    .status-card{ border-bottom-color:#ddd !important; }
+    .sc-marker{ box-shadow:none !important; border:1px solid #333; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .status-card.ok .sc-marker{ background:#15803d !important; border-color:#15803d !important; }
+    .status-card.warn .sc-marker{ background:#b45309 !important; border-color:#b45309 !important; }
+    .status-card.crit .sc-marker{ background:#b91c1c !important; border-color:#b91c1c !important; }
+    .status-card.idle .sc-marker{ background:#888 !important; border-color:#888 !important; }
     .sc-name{ color:#000 !important; }
     .status-card.ok .sc-name{ color:#15803d !important; }
     .status-card.warn .sc-name{ color:#b45309 !important; }
@@ -816,1239 +911,1132 @@
     .sc-desc{ color:#222 !important; }
     .sc-action{ color:#666 !important; }
 
-    .flow{ border-color:#ccc; }
-    .flow-step{ color:#222; border-bottom-color:#ddd; }
-    .flow-step b{ color:#0b6b96; }
+    .flow{ border-color:#ccc !important; page-break-inside:avoid; }
+    .flow-step{ color:#222 !important; border-bottom-color:#ddd !important; }
+    .flow-step b{ color:#0b6b96 !important; }
 
-    .qref{ border-color:#333; }
-    .qcard{ border-color:#ddd; }
+    .qref{ border-color:#333 !important; page-break-inside:avoid; }
+    .qcard{ border-bottom-color:#ddd !important; }
     .qcard h4{ color:#0b6b96 !important; }
     .qcard.ok h4{ color:#15803d !important; }
     .qcard.warn h4{ color:#b45309 !important; }
     .qcard.crit h4{ color:#b91c1c !important; }
     .qcard p{ color:#222 !important; }
 
-    .cover{
-      background:#fff !important; background-image:none !important;
-      color:#000 !important; border:2px solid #000;
-    }
-    .cover::before, .cover::after{ display:none !important; }
-    .cover-mark{
-      color:#0b6b96 !important; border-color:#0b6b96 !important; background:#fff !important;
-    }
-    .cover-imprint{ color:#555 !important; }
-    .cover-kicker{ color:#0b6b96 !important; }
-    .cover-title{ color:#000 !important; }
-    .cover-title em{ color:#0b6b96 !important; }
-    .cover-sub{ color:#333 !important; }
-    .cover-rule{ background:#0b6b96 !important; }
-    .cover-bottom{ background:#fff !important; border:1px solid #333 !important; }
-    .cover-cell{ background:#fff !important; border-right:1px solid #ccc; }
-    .cover-cell:last-child{ border-right:0; }
-    .cover-cell .k{ color:#555 !important; }
-    .cover-cell .v{ color:#000 !important; }
-    .cover-cell .v.accent{ color:#0b6b96 !important; }
-
-    .back-cover{
-      background:#fff !important; background-image:none !important;
-      color:#000 !important; border:2px solid #000;
-    }
-    .back-cover::before{ display:none !important; }
-    .bc-mark{ color:#0b6b96 !important; border-color:#0b6b96 !important; }
-    .bc-imprint{ color:#555 !important; }
-    .bc-body{ color:#333 !important; }
-    .bc-bottom{ color:#555 !important; border-top-color:#999 !important; }
-    .bc-bottom .end{ color:#0b6b96 !important; }
+    .fill-line input{ border-bottom:1px solid #999 !important; color:#000 !important; }
+    .site-foot{ color:#555 !important; }
   }
 </style>
 </head>
 <body>
 
-<div class="print-tip">
-  Press <b>Ctrl / ⌘ + P</b> to print · A4 · Scale 100%
+<!-- ============================================================
+     TOP BAR
+     ============================================================ -->
+<header class="topbar">
+  <button class="topbar-btn nav-toggle" id="navToggle" aria-label="Toggle contents" aria-expanded="false" aria-controls="toc">
+    <span></span>
+  </button>
+
+  <a class="brand" href="#top">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-4Z"/>
+        <path d="m9 12 2 2 4-4"/>
+      </svg>
+    </span>
+    <span class="brand-text"><b>INNOVATEX</b> <span>IOT · User Manual</span></span>
+  </a>
+
+  <div class="topbar-spacer"></div>
+
+  <button class="topbar-btn" id="printBtn" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/>
+    </svg>
+    <span class="label">Print / PDF</span>
+  </button>
+
+  <div class="progress-rail" aria-hidden="true"><span class="progress-bar" id="progressBar"></span></div>
+</header>
+
+<div class="backdrop" id="backdrop"></div>
+
+<!-- ============================================================
+     SHELL
+     ============================================================ -->
+<div class="shell" id="top">
+
+  <!-- ---------- SIDEBAR ---------- -->
+  <nav class="toc" id="toc" aria-label="Manual contents">
+    <div class="toc-head">Contents</div>
+
+    <div class="toc-group">
+      <div class="toc-label">Getting Started</div>
+      <a href="#welcome">Welcome</a>
+      <a href="#quick-start">Quick Start</a>
+      <a href="#before">Before You Start</a>
+      <a href="#power">Powering Up</a>
+      <a href="#wifi">Connecting to Wi-Fi</a>
+      <a href="#signin">Opening the Dashboard</a>
+    </div>
+
+    <div class="toc-group">
+      <div class="toc-label">Using the System</div>
+      <a href="#dashboard">The Dashboard</a>
+      <a href="#sensors">Sensors &amp; Readings</a>
+      <a href="#status">Status &amp; Alerts</a>
+      <a href="#connection">Connection Status</a>
+      <a href="#controls">Alarm &amp; Lighting</a>
+      <a href="#camera">Live Camera</a>
+      <a href="#reports">Reports</a>
+    </div>
+
+    <div class="toc-group">
+      <div class="toc-label">Maintenance &amp; Reference</div>
+      <a href="#change-wifi">Changing Wi-Fi</a>
+      <a href="#troubleshooting">Troubleshooting</a>
+      <a href="#safety">Safety</a>
+      <a href="#reference">Quick Reference</a>
+    </div>
+  </nav>
+
+  <!-- ---------- MAIN ---------- -->
+  <main class="main">
+    <div class="doc">
+
+      <!-- ===================== HERO ===================== -->
+      <section class="hero" aria-label="Manual cover">
+        <div class="hero-inner">
+
+          <div class="hero-top">
+            <div class="cover-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-4Z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <div class="hero-imprint">
+              InnovateX IOT<br>Customer Manual
+            </div>
+          </div>
+
+          <div class="hero-kicker">User Manual</div>
+          <h1>
+            Security &amp;<br>
+            Environmental<br>
+            <em>Monitoring System</em>
+          </h1>
+          <div class="hero-rule"></div>
+          <p class="hero-sub">
+            Everything you need to set up, start, use and look after your
+            INNOVATEX IOT system — written for the person using it every day.
+          </p>
+
+          <div class="hero-meta">
+            <div class="hero-cell">
+              <div class="k">Interface</div>
+              <div class="v accent">Web Dashboard</div>
+            </div>
+            <div class="hero-cell">
+              <div class="k">Monitoring</div>
+              <div class="v accent">Real-Time</div>
+            </div>
+            <div class="hero-cell">
+              <div class="k">Camera</div>
+              <div class="v">Live View</div>
+            </div>
+            <div class="hero-cell">
+              <div class="k">Setup</div>
+              <div class="v">Guided Wi-Fi</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===================== WELCOME ===================== -->
+      <section class="sec" id="welcome">
+        <div class="sec-head">
+          <div class="eyebrow">Getting Started</div>
+          <h2>Welcome</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          The <strong>INNOVATEX IOT</strong> system keeps watch over your site. It measures
+          the conditions around the installation — temperature, humidity, light, distance
+          and motion — and shows them on a simple dashboard you can open from any phone,
+          tablet or computer. From the same screen you can also switch the site's alarm
+          and perimeter lighting on and off.
+        </p>
+
+        <h3>What You Can Monitor</h3>
+        <ul class="list two">
+          <li>Temperature</li>
+          <li>Humidity</li>
+          <li>Ambient light</li>
+          <li>Distance / proximity</li>
+          <li>Motion</li>
+          <li>Live camera view</li>
+          <li>Overall system status</li>
+        </ul>
+
+        <h3>What You Can Control</h3>
+        <ul class="list two">
+          <li>Audible alarm</li>
+          <li>Perimeter lighting</li>
+        </ul>
+
+        <h3>How You Use It</h3>
+        <p>
+          Once the system is installed and connected, it runs on its own. Your job as an
+          operator is straightforward: make sure it is powered and connected, open the
+          dashboard, and act on what you see there.
+        </p>
+
+        <div class="note">
+          <span class="note-title">This Manual</span>
+          <p>
+            If you are using the system for the first time, start with
+            <strong>Quick Start</strong>. Everything else in this manual is reference
+            material you can return to when you need it.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== QUICK START ===================== -->
+      <section class="sec" id="quick-start">
+        <div class="sec-head">
+          <div class="eyebrow">Start Here</div>
+          <h2>Quick Start</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          If your system is already installed, these five steps are all you need for
+          everyday use.
+        </p>
+
+        <div class="flow">
+          <div class="flow-step"><b>01</b><span>Power the system on</span></div>
+          <div class="flow-step"><b>02</b><span>Connect the system to Wi-Fi</span></div>
+          <div class="flow-step"><b>03</b><span>Open the dashboard</span></div>
+          <div class="flow-step"><b>04</b><span>Check the status</span></div>
+          <div class="flow-step"><b>05</b><span>Use the system</span></div>
+        </div>
+
+        <div class="qref">
+          <div class="qcard">
+            <h4>Power</h4>
+            <p>Switch on the power supply. The unit starts by itself — give it a moment.</p>
+          </div>
+          <div class="qcard">
+            <h4>Wi-Fi</h4>
+            <p>Set up once. After that the system reconnects automatically every time.</p>
+          </div>
+          <div class="qcard">
+            <h4>Dashboard</h4>
+            <p>Open the dashboard address in a web browser and sign in with your details.</p>
+          </div>
+          <div class="qcard ok">
+            <h4>Good Status</h4>
+            <p>Connection shows <strong>REALTIME</strong> and system shows <strong>SYSTEM NORMAL</strong>.</p>
+          </div>
+        </div>
+
+        <div class="note note--ok">
+          <span class="note-title">Normal Condition</span>
+          <p>
+            Everything is fine when the dashboard shows <strong>REALTIME</strong>,
+            <strong>SYSTEM NORMAL</strong>, and live sensor readings.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== BEFORE YOU START ===================== -->
+      <section class="sec" id="before">
+        <div class="sec-head">
+          <div class="eyebrow">Preparation</div>
+          <h2>Before You Start</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          A quick check before switching anything on prevents most problems later.
+          Make sure you have the following ready.
+        </p>
+
+        <h3>What You Need</h3>
+        <ul class="list">
+          <li>The INNOVATEX IOT monitoring unit, installed in place.</li>
+          <li>All sensors connected.</li>
+          <li>The camera connected, if your system includes one.</li>
+          <li>A suitable power supply, connected and ready.</li>
+          <li>A Wi-Fi network at the site with internet access.</li>
+          <li>The Wi-Fi network name and password.</li>
+          <li>A phone, tablet, or computer for the dashboard.</li>
+          <li>Your dashboard username and password.</li>
+        </ul>
+
+        <h3>Before Switching On</h3>
+        <ul class="list">
+          <li>Check that every cable and connector is firmly in place.</li>
+          <li>Check that the unit is not exposed to water, heat, or direct sunlight.</li>
+          <li>Check that the power supply matches the equipment.</li>
+        </ul>
+
+        <div class="note note--warn">
+          <span class="note-title">Important</span>
+          <p>
+            Do <strong>not</strong> connect or disconnect sensors while the unit is
+            powered on. Switch the power off first, unless your installer has told you
+            otherwise.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== POWERING UP ===================== -->
+      <section class="sec" id="power">
+        <div class="sec-head">
+          <div class="eyebrow">Starting the System</div>
+          <h2>Powering Up</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          Follow this sequence whenever the system needs to be started — whether it is
+          the first installation or a restart after maintenance.
+        </p>
+
+        <ol class="steps">
+          <li>
+            <strong>Check the connections.</strong>
+            <ul class="sub">
+              <li>Sensors connected.</li>
+              <li>Camera connected, if installed.</li>
+              <li>Power supply connected.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Switch on the power supply.</strong>
+            The unit starts automatically. There is no separate start button.
+          </li>
+          <li>
+            <strong>Wait for startup.</strong>
+            Give the system a short time to initialise.
+          </li>
+          <li>
+            <strong>Watch the indicators.</strong>
+            Depending on your hardware, one or more lights may turn on or blink while
+            the system starts. This is normal.
+          </li>
+          <li>
+            <strong>Wait for the network connection.</strong>
+            The system will connect to its saved Wi-Fi network automatically.
+          </li>
+        </ol>
+
+        <div class="note">
+          <span class="note-title">What You May See</span>
+          <p>
+            Immediately after power-up the dashboard may briefly show
+            <span class="pill accent">CONNECTING…</span> or
+            <span class="pill">NO TELEMETRY</span>. This is normal — wait a little
+            longer before assuming something is wrong.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== WI-FI SETUP ===================== -->
+      <section class="sec" id="wifi">
+        <div class="sec-head">
+          <div class="eyebrow">One-Time Setup</div>
+          <h2>Connecting to Wi-Fi</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          This setup is only needed once, or whenever the site's Wi-Fi details change.
+          When the system has no saved network to use, it creates its own temporary
+          Wi-Fi network so you can tell it which network to join.
+        </p>
+
+        <ol class="steps">
+          <li>
+            <strong>Power on the system.</strong>
+            If no saved Wi-Fi is available, the unit automatically starts its setup mode.
+          </li>
+          <li>
+            <strong>On your phone or laptop, open Wi-Fi settings.</strong>
+            Look for the configuration network created by the device and connect to it.
+          </li>
+          <li>
+            <strong>Open the setup page.</strong>
+            It normally appears on screen automatically. If it does not, open a web
+            browser and go to the address shown on the setup network's welcome page.
+          </li>
+          <li>
+            <strong>Choose your site's Wi-Fi.</strong>
+            <ul class="sub">
+              <li>Select the Wi-Fi network the system should use.</li>
+              <li>Enter the Wi-Fi password.</li>
+              <li>Save the settings.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Wait for the device to reconnect.</strong>
+            The temporary setup network will disappear — this means the system has
+            joined your network successfully.
+          </li>
+          <li>
+            <strong>Check the dashboard.</strong>
+            It should now show <span class="pill ok">REALTIME</span> and sensor readings
+            should appear.
+          </li>
+        </ol>
+
+        <div class="note">
+          <span class="note-title">Tip</span>
+          <p>
+            If you cannot see the setup network, wait one minute and look again. The
+            device may still be starting up.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== OPENING THE DASHBOARD ===================== -->
+      <section class="sec" id="signin">
+        <div class="sec-head">
+          <div class="eyebrow">Signing In</div>
+          <h2>Opening the Dashboard</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          The dashboard is a web page. You do not need to install anything — any modern
+          browser on a phone, tablet or computer will work.
+        </p>
+
+        <ol class="steps">
+          <li>Open a web browser.</li>
+          <li>Go to the dashboard address provided by your installer.</li>
+          <li>Enter your <strong>username</strong>.</li>
+          <li>Enter your <strong>password</strong>.</li>
+          <li>Select <strong>AUTHENTICATE</strong>.</li>
+        </ol>
+
+        <p>
+          Some browsers offer a <strong>Remember session</strong> option so you do not
+          have to sign in each time.
+        </p>
+
+        <div class="note note--crit">
+          <span class="note-title">Security</span>
+          <p>
+            Do not use <strong>Remember session</strong> on a shared or public computer.
+            Always sign out when you have finished.
+          </p>
+        </div>
+
+        <h3>If the Dashboard Does Not Open</h3>
+        <ul class="list">
+          <li>Check that you typed the address correctly.</li>
+          <li>Check that your device has an internet connection.</li>
+          <li>Refresh the page and try again.</li>
+          <li>Try a different browser.</li>
+          <li>If it still does not open, contact your system administrator.</li>
+        </ul>
+      </section>
+
+      <!-- ===================== THE DASHBOARD ===================== -->
+      <section class="sec" id="dashboard">
+        <div class="sec-head">
+          <div class="eyebrow">Screen Layout</div>
+          <h2>Understanding the Dashboard</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          After you sign in, the dashboard shows the current condition of your site.
+          Each part of the screen covers one topic — the list below explains what you
+          will find where.
+        </p>
+
+        <h3>What Each Section Shows</h3>
+        <ul class="list">
+          <li>
+            <strong>System status</strong> — the overall condition of the site in a
+            single message, such as <em>System Normal</em> or an alert.
+          </li>
+          <li>
+            <strong>Connection status</strong> — whether the dashboard is receiving
+            fresh information right now.
+          </li>
+          <li>
+            <strong>Sensor readings</strong> — temperature, humidity, ambient light,
+            distance and motion.
+          </li>
+          <li>
+            <strong>Live camera</strong> — a live view from the camera, where one is
+            installed.
+          </li>
+          <li>
+            <strong>Alarm control</strong> — switches the audible alarm on and off.
+          </li>
+          <li>
+            <strong>Lighting control</strong> — switches the perimeter lighting on
+            and off.
+          </li>
+          <li>
+            <strong>Reports</strong> — lets you look back at recorded sensor history
+            for a chosen period.
+          </li>
+        </ul>
+
+        <div class="note">
+          <span class="note-title">Good To Know</span>
+          <p>
+            The dashboard shows information, but it does not replace your site's normal
+            security and emergency procedures. Always follow those first.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== SENSORS ===================== -->
+      <section class="sec" id="sensors">
+        <div class="sec-head">
+          <div class="eyebrow">Reading the Values</div>
+          <h2>Sensors &amp; Readings</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          Each sensor reports one physical measurement. The dashboard shows the value
+          and, where relevant, a short plain-language interpretation.
+        </p>
+
+        <h3>Temperature</h3>
+        <p>The current temperature measured at the site.</p>
+
+        <h3>Humidity</h3>
+        <p>The current moisture level in the air.</p>
+
+        <h3>Ambient Light</h3>
+        <p>
+          How much light is present around the sensor. This value changes naturally
+          between day and night.
+        </p>
+
+        <h3>Distance</h3>
+        <p>How far away the nearest object is from the sensor.</p>
+        <p>
+          <span class="pill ok">CLEAR</span> nothing is close —
+          <span class="pill warn">PROXIMITY</span> something is nearby —
+          <span class="pill crit">OBSTRUCTION</span> something is blocking the sensor.
+        </p>
+
+        <h3>Motion</h3>
+        <p>Whether movement has been detected.</p>
+        <p>
+          <span class="pill ok">CLEAR</span> no movement —
+          <span class="pill warn">MOTION</span> movement detected —
+          <span class="pill">NO DATA</span> no reading available.
+        </p>
+
+        <div class="note note--warn">
+          <span class="note-title">Note</span>
+          <p>
+            If a sensor shows <strong>NO DATA</strong> for more than a few minutes,
+            see <a href="#troubleshooting">Common Troubleshooting</a>.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== STATUS & ALERTS ===================== -->
+      <section class="sec" id="status">
+        <div class="sec-head">
+          <div class="eyebrow">What the Messages Mean</div>
+          <h2>System Status &amp; Alerts</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <div class="status-list">
+          <div class="status-card ok">
+            <span class="sc-marker"></span>
+            <div class="sc-name">SYSTEM NORMAL</div>
+            <div class="sc-desc">Everything is working normally.</div>
+            <div class="sc-action">Action · None required</div>
+          </div>
+          <div class="status-card warn">
+            <span class="sc-marker"></span>
+            <div class="sc-name">REMOTE ALARM</div>
+            <div class="sc-desc">The alarm has been switched on from the dashboard.</div>
+            <div class="sc-action">Action · Check the site · Follow security procedure</div>
+          </div>
+          <div class="status-card crit">
+            <span class="sc-marker"></span>
+            <div class="sc-name">INTRUDER ALERT</div>
+            <div class="sc-desc">A possible intrusion or perimeter event has been detected.</div>
+            <div class="sc-action">Action · Follow your site security procedure</div>
+          </div>
+          <div class="status-card crit">
+            <span class="sc-marker"></span>
+            <div class="sc-name">FIRE ALERT</div>
+            <div class="sc-desc">A possible fire or very high temperature has been detected.</div>
+            <div class="sc-action">Action · Treat as an emergency immediately</div>
+          </div>
+          <div class="status-card idle">
+            <span class="sc-marker"></span>
+            <div class="sc-name">NO TELEMETRY</div>
+            <div class="sc-desc">No sensor information is reaching the dashboard.</div>
+            <div class="sc-action">Check · Power · Wi-Fi · Monitoring unit</div>
+          </div>
+          <div class="status-card crit">
+            <span class="sc-marker"></span>
+            <div class="sc-name">CONNECTION ERROR</div>
+            <div class="sc-desc">The dashboard cannot reach the monitoring system.</div>
+            <div class="sc-action">Check network · Contact administrator</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== CONNECTION STATUS ===================== -->
+      <section class="sec" id="connection">
+        <div class="sec-head">
+          <div class="eyebrow">How Fresh Is the Data?</div>
+          <h2>Connection Status</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          The connection indicator tells you how recent the information on screen is.
+          It is the quickest way to tell whether the system is healthy.
+        </p>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr><th>Message</th><th>What It Means</th><th>What To Do</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>CONNECTING…</td>
+                <td>The system is still establishing communication.</td>
+                <td>Wait a short time.</td>
+              </tr>
+              <tr>
+                <td>REALTIME</td>
+                <td>New information is arriving normally.</td>
+                <td>Nothing — this is correct.</td>
+              </tr>
+              <tr>
+                <td>STALE</td>
+                <td>Information has not updated recently.</td>
+                <td>Wait, then check Wi-Fi and internet.</td>
+              </tr>
+              <tr>
+                <td>NO DATA</td>
+                <td>No usable sensor information is available.</td>
+                <td>Check power, sensors and Wi-Fi.</td>
+              </tr>
+              <tr>
+                <td>OFFLINE</td>
+                <td>The dashboard cannot reach the monitoring system.</td>
+                <td>See <a href="#troubleshooting">Common Troubleshooting</a>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note note--ok">
+          <span class="note-title">Normal Condition</span>
+          <p>
+            <strong>REALTIME</strong> together with <strong>SYSTEM NORMAL</strong> means
+            everything is working as it should.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== CONTROLS ===================== -->
+      <section class="sec" id="controls">
+        <div class="sec-head">
+          <div class="eyebrow">Remote Controls</div>
+          <h2>Alarm &amp; Lighting Controls</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          The dashboard lets you switch two things at the site on and off: the audible
+          alarm and the perimeter lighting.
+        </p>
+
+        <h3>Audible Alarm</h3>
+        <ol class="steps">
+          <li>Open the dashboard and sign in.</li>
+          <li>Find the <strong>Audible Alarm</strong> control.</li>
+          <li>Switch it <strong>ON</strong> to sound the alarm.</li>
+          <li>Switch it <strong>OFF</strong> to stop the alarm.</li>
+        </ol>
+
+        <h3>Perimeter Lighting</h3>
+        <ol class="steps">
+          <li>Find the <strong>Perimeter Lighting</strong> control.</li>
+          <li>Switch it <strong>ON</strong> to turn the lights on.</li>
+          <li>Switch it <strong>OFF</strong> to turn the lights off.</li>
+        </ol>
+
+        <p>
+          If a command cannot be sent, the dashboard may show
+          <span class="pill crit">COMMAND FAILED</span>. Check the connection and try
+          again.
+        </p>
+
+        <div class="note note--warn">
+          <span class="note-title">Important</span>
+          <p>
+            Only authorised personnel should use these controls. Do not sound the alarm
+            unnecessarily.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== CAMERA ===================== -->
+      <section class="sec" id="camera">
+        <div class="sec-head">
+          <div class="eyebrow">Camera View</div>
+          <h2>Using the Live Camera</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          If your system includes a camera, the dashboard shows a live view from it.
+          When the camera is working, a <span class="pill ok">LIVE</span> indicator is
+          displayed.
+        </p>
+
+        <h3>Camera Controls</h3>
+        <ul class="list">
+          <li><strong>Pause</strong> — temporarily stops the picture on screen.</li>
+          <li><strong>Resume</strong> — starts the picture again.</li>
+          <li><strong>Mirror</strong> — flips the picture so it faces the other way.</li>
+        </ul>
+
+        <p>
+          The camera section may also show when the last image was received and whether
+          the camera is currently streaming.
+        </p>
+
+        <h3>If the Camera Is Not Available</h3>
+        <ol class="steps">
+          <li>Check that the camera unit has power.</li>
+          <li>Check the Wi-Fi connection.</li>
+          <li>Wait a minute for the camera to reconnect.</li>
+          <li>Refresh the dashboard page.</li>
+          <li>If it is still unavailable, contact your administrator.</li>
+        </ol>
+      </section>
+
+      <!-- ===================== REPORTS ===================== -->
+      <section class="sec" id="reports">
+        <div class="sec-head">
+          <div class="eyebrow">Looking Back</div>
+          <h2>Reports</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          The system keeps a record of what the sensors measured over time. A report
+          lets you look back at a chosen period — useful for reviews, records, and
+          investigating what happened at a particular moment.
+        </p>
+
+        <h3>To Create a Report</h3>
+        <ol class="steps">
+          <li>Open the <strong>Security System Report</strong> section.</li>
+          <li>Choose the <strong>From</strong> date and time.</li>
+          <li>Choose the <strong>To</strong> date and time.</li>
+          <li>Select <strong>Generate Report</strong>.</li>
+          <li>Wait for the records to appear.</li>
+        </ol>
+
+        <p>
+          The most recent records are shown first. If nothing is found for the period
+          you chose, the system will say:
+          <em>“No records found in the selected range.”</em>
+        </p>
+
+        <h3>Printing or Saving a Report</h3>
+        <ol class="steps">
+          <li>Select the print option.</li>
+          <li>Choose a printer, or select <strong>Save as PDF</strong>.</li>
+          <li>Save the report where you need it.</li>
+        </ol>
+
+        <h3>Reports Are Useful For</h3>
+        <ul class="list two">
+          <li>Security reviews</li>
+          <li>Site monitoring</li>
+          <li>Incident investigation</li>
+          <li>Maintenance records</li>
+        </ul>
+      </section>
+
+      <!-- ===================== CHANGING WI-FI ===================== -->
+      <section class="sec" id="change-wifi">
+        <div class="sec-head">
+          <div class="eyebrow">New Network</div>
+          <h2>Changing the Wi-Fi Network</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          If your site moves to a new Wi-Fi network, or the network name or password
+          changes, the system needs to be told the new details.
+        </p>
+
+        <h3>When This Is Needed</h3>
+        <ul class="list">
+          <li>The Wi-Fi router has been replaced.</li>
+          <li>The Wi-Fi network name has changed.</li>
+          <li>The Wi-Fi password has changed.</li>
+          <li>The system can no longer connect to the network it used before.</li>
+          <li>The device has been reset by an authorised person.</li>
+        </ul>
+
+        <h3>What To Do</h3>
+        <ol class="steps">
+          <li>Put the monitoring unit into Wi-Fi setup mode, following your installer's instructions.</li>
+          <li>On your phone or laptop, connect to the setup network created by the device.</li>
+          <li>Open the setup page in your browser.</li>
+          <li>Select the new Wi-Fi network.</li>
+          <li>Enter the new password.</li>
+          <li>Save the settings.</li>
+          <li>Wait for the system to reconnect.</li>
+          <li>Open the dashboard and confirm it shows <span class="pill ok">REALTIME</span>.</li>
+        </ol>
+
+        <div class="note note--warn">
+          <span class="note-title">Important</span>
+          <p>
+            Give the system time to reconnect before trying again. Do not repeatedly
+            reset the device.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== TROUBLESHOOTING ===================== -->
+      <section class="sec" id="troubleshooting">
+        <div class="sec-head">
+          <div class="eyebrow">Common Problems</div>
+          <h2>Common Troubleshooting</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr><th>Problem</th><th>What To Try</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>System does not power on</td>
+                <td>Check the power supply and the wall socket. Check the connections.</td>
+              </tr>
+              <tr>
+                <td>Dashboard does not open</td>
+                <td>Check your internet connection. Check the web address. Refresh and try again.</td>
+              </tr>
+              <tr>
+                <td>Cannot log in</td>
+                <td>Check your username and password. Contact your administrator if unsure.</td>
+              </tr>
+              <tr>
+                <td>Wi-Fi is not connected</td>
+                <td>Run the Wi-Fi setup again. Make sure the router is on.</td>
+              </tr>
+              <tr>
+                <td>Dashboard shows OFFLINE</td>
+                <td>Check power, Wi-Fi and internet. Wait a short time for reconnection.</td>
+              </tr>
+              <tr>
+                <td>Sensor values not appearing</td>
+                <td>Check the unit is powered and connected. Check the sensor if it is safe to do so.</td>
+              </tr>
+              <tr>
+                <td>Camera unavailable</td>
+                <td>Check camera power and Wi-Fi. Refresh the dashboard.</td>
+              </tr>
+              <tr>
+                <td>Alarm command fails</td>
+                <td>Check the connection and try again. Check you have permission to use the control.</td>
+              </tr>
+              <tr>
+                <td>Report shows no records</td>
+                <td>Choose a wider date and time range and generate again.</td>
+              </tr>
+              <tr>
+                <td>Wi-Fi password changed</td>
+                <td>Set the system up on the new network again.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note">
+          <span class="note-title">Still Not Working?</span>
+          <p>
+            Contact your system administrator and tell them what you have already tried.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== SAFETY ===================== -->
+      <section class="sec" id="safety">
+        <div class="sec-head">
+          <div class="eyebrow">Important</div>
+          <h2>Safety</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <p class="lede">
+          These rules protect both the equipment and the people working around it.
+          Read them once and follow them at all times.
+        </p>
+
+        <h3>Electrical Safety</h3>
+        <ul class="list">
+          <li>Do not touch electrical connections while the equipment is powered.</li>
+          <li>Check that the power supply matches the equipment before connecting it.</li>
+          <li>Keep cables tidy and out of the way of foot traffic.</li>
+          <li>Do not use damaged cables or plugs.</li>
+        </ul>
+
+        <h3>Equipment Safety</h3>
+        <ul class="list">
+          <li>Do not expose the equipment to water.</li>
+          <li>Do not expose the equipment to excessive heat or direct sunlight.</li>
+          <li>Do not open or modify the hardware.</li>
+          <li>Avoid unnecessary power cycling — the system is designed to stay powered on.</li>
+        </ul>
+
+        <h3>Operating Safety</h3>
+        <ul class="list">
+          <li>Only authorised personnel should operate the system.</li>
+          <li>Keep your username and password confidential.</li>
+          <li>Do not sound the alarm unnecessarily.</li>
+          <li>Treat <strong>FIRE ALERT</strong> as a real emergency until it is confirmed otherwise.</li>
+          <li>Treat <strong>INTRUDER ALERT</strong> as a real security event until it is confirmed otherwise.</li>
+          <li>Always follow your site's emergency and evacuation procedures.</li>
+        </ul>
+
+        <div class="note note--crit">
+          <span class="note-title">Remember</span>
+          <p>
+            The dashboard helps you monitor your site, but it does not replace emergency
+            services or your normal security procedures.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== QUICK REFERENCE ===================== -->
+      <section class="sec" id="reference">
+        <div class="sec-head">
+          <div class="eyebrow">At A Glance</div>
+          <h2>Quick Reference</h2>
+          <div class="orn"><span></span><b>◆</b><span></span></div>
+        </div>
+
+        <div class="qref">
+          <div class="qcard">
+            <h4>Start the System</h4>
+            <p>Power on → wait → Wi-Fi connects → open dashboard → sign in → check REALTIME.</p>
+          </div>
+          <div class="qcard ok">
+            <h4>Normal Condition</h4>
+            <p>REALTIME + SYSTEM NORMAL + sensor readings available.</p>
+          </div>
+          <div class="qcard warn">
+            <h4>Wi-Fi Problem</h4>
+            <p>Run Wi-Fi setup → choose network → enter password → save → wait to reconnect.</p>
+          </div>
+          <div class="qcard warn">
+            <h4>Security Alert</h4>
+            <p>Check the alert, then follow your site security procedure.</p>
+          </div>
+          <div class="qcard crit">
+            <h4>Fire Alert</h4>
+            <p>Treat as an emergency. Follow your fire and evacuation procedure.</p>
+          </div>
+          <div class="qcard">
+            <h4>Dashboard Offline</h4>
+            <p>Check power → Wi-Fi → internet → unit → then contact your administrator.</p>
+          </div>
+        </div>
+
+        <h3>Your Installation Details</h3>
+        <p>Fill this in and keep it with the manual for future reference.</p>
+
+        <div class="fill">
+          <div class="fill-line"><label for="f-installer">Installer</label><input id="f-installer" type="text" autocomplete="off"></div>
+          <div class="fill-line"><label for="f-contact">Contact</label><input id="f-contact" type="text" autocomplete="off"></div>
+          <div class="fill-line"><label for="f-phone">Phone</label><input id="f-phone" type="tel" autocomplete="off"></div>
+          <div class="fill-line"><label for="f-email">Email</label><input id="f-email" type="email" autocomplete="off"></div>
+          <div class="fill-line"><label for="f-date">Install Date</label><input id="f-date" type="text" autocomplete="off"></div>
+          <div class="fill-line"><label for="f-site">Site</label><input id="f-site" type="text" autocomplete="off"></div>
+        </div>
+      </section>
+
+      <!-- ===================== END NOTE ===================== -->
+      <section class="endnote" aria-label="About this manual">
+        <div class="endnote-inner">
+          <div class="endnote-head">
+            <div class="bc-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-4Z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <div class="bc-imprint">InnovateX IOT</div>
+          </div>
+
+          <p>
+            This manual covers everything you need to run your INNOVATEX IOT
+            Security &amp; Environmental Monitoring system — from first power-up and
+            Wi-Fi setup through daily operation, camera viewing, reports, and
+            troubleshooting.
+          </p>
+          <p>
+            Keep this document with the installation. For support, contact your
+            authorised installer or system administrator.
+          </p>
+
+          <div class="endnote-foot">
+            <span>Customer User Manual</span>
+            <span class="end">End of Manual</span>
+            <span>© INNOVATEX IOT</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="site-foot">
+        <span>INNOVATEX IOT · User Manual</span>
+        <span>Revision 1.0</span>
+      </div>
+
+    </div>
+  </main>
 </div>
 
-<div class="book">
-
-  <!-- ============================================================
-       COVER
-       ============================================================ -->
-  <section class="book-page cover" aria-label="Front cover">
-    <div class="cover-inner">
-
-      <div class="cover-top">
-        <div class="cover-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-4Z"/>
-            <path d="m9 12 2 2 4-4"/>
-          </svg>
-        </div>
-        <div class="cover-imprint">InnovateX IOT<br>Customer Manual</div>
-      </div>
-
-      <div class="cover-main">
-        <div class="cover-kicker">User Manual</div>
-        <h1 class="cover-title">
-          Security &amp;<br>
-          Environmental<br>
-          <em>Monitoring System</em>
-        </h1>
-        <div class="cover-rule"></div>
-        <h4>
-          Everything you need to set up, start, use and look after your
-          INNOVATEX IOT system - written for the person using it every day.
-        </h4>
-      </div>
-
-      <div class="cover-bottom">
-        <div class="cover-cell">
-          <div class="k">Interface</div>
-          <div class="v accent">Web Dashboard</div>
-        </div>
-        <div class="cover-cell">
-          <div class="k">Monitoring</div>
-          <div class="v accent">Real-Time</div>
-        </div>
-        <div class="cover-cell">
-          <div class="k">Camera</div>
-          <div class="v">Live View</div>
-        </div>
-        <div class="cover-cell">
-          <div class="k">Setup</div>
-          <div class="v">Guided Wi-Fi</div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ============================================================
-       PAGE 1 — WELCOME
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Welcome</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">Getting Started</div>
-        <h2 class="ch-title">Welcome</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        The <strong>INNOVATEX IOT</strong> system keeps watch over your site. It measures
-        the conditions around the installation — temperature, humidity, light, distance
-        and motion — and shows them on a simple dashboard you can open from any phone,
-        tablet or computer. From the same screen you can also switch the site's alarm
-        and perimeter lighting on and off.
-      </p>
-
-      <h3>What You Can Monitor</h3>
-      <ul class="list two">
-        <li>Temperature</li>
-        <li>Humidity</li>
-        <li>Ambient light</li>
-        <li>Distance / proximity</li>
-        <li>Motion</li>
-        <li>Live camera view</li>
-        <li>Overall system status</li>
-      </ul>
-
-      <h3>What You Can Control</h3>
-      <ul class="list two">
-        <li>Audible alarm</li>
-        <li>Perimeter lighting</li>
-      </ul>
-
-      <h3>How You Use It</h3>
-      <p>
-        Once the system is installed and connected, it runs on its own. Your job as an
-        operator is straightforward: make sure it is powered and connected, open the
-        dashboard, and act on what you see there.
-      </p>
-
-      <div class="note note--info">
-        <span class="note-title">This Manual</span>
-        <p>
-          If you are using the system for the first time, start with
-          <strong>Quick Start</strong> on the next page. Everything else in this manual
-          is reference material you can return to when you need it.
-        </p>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">1</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 2 — QUICK START
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Quick Start</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">Start Here</div>
-        <h2 class="ch-title">Quick Start</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        If your system is already installed, these five steps are all you need for
-        everyday use.
-      </p>
-
-      <div class="flow">
-        <div class="flow-step"><b>01</b><span>Power the system on</span></div>
-        <div class="flow-step"><b>02</b><span>Connect the system to Wi-Fi</span></div>
-        <div class="flow-step"><b>03</b><span>Open the dashboard</span></div>
-        <div class="flow-step"><b>04</b><span>Check the status</span></div>
-        <div class="flow-step"><b>05</b><span>Use the system</span></div>
-      </div>
-
-      <div class="qref">
-        <div class="qcard">
-          <h4>Power</h4>
-          <p>Switch on the power supply. The unit starts by itself — give it a moment.</p>
-        </div>
-        <div class="qcard">
-          <h4>Wi-Fi</h4>
-          <p>Set up once. After that the system reconnects automatically every time.</p>
-        </div>
-        <div class="qcard">
-          <h4>Dashboard</h4>
-          <p>Open the dashboard address in a web browser and sign in with your details.</p>
-        </div>
-        <div class="qcard ok">
-          <h4>Good Status</h4>
-          <p>Connection shows <strong>REALTIME</strong> and system shows <strong>SYSTEM NORMAL</strong>.</p>
-        </div>
-      </div>
-
-      <div class="note note--ok">
-        <span class="note-title">Normal Condition</span>
-        <p>
-          Everything is fine when the dashboard shows <strong>REALTIME</strong>,
-          <strong>SYSTEM NORMAL</strong>, and live sensor readings.
-        </p>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">2</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 3 — BEFORE YOU START
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Before You Start</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">Preparation</div>
-        <h2 class="ch-title">Before You Start</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        A quick check before switching anything on prevents most problems later.
-        Make sure you have the following ready.
-      </p>
-
-      <h3>What You Need</h3>
-      <ul class="list">
-        <li>The INNOVATEX IOT monitoring unit, installed in place.</li>
-        <li>All sensors connected.</li>
-        <li>The camera connected, if your system includes one.</li>
-        <li>A suitable power supply, connected and ready.</li>
-        <li>A Wi-Fi network at the site with internet access.</li>
-        <li>The Wi-Fi network name and password.</li>
-        <li>A phone, tablet, or computer for the dashboard.</li>
-        <li>Your dashboard username and password.</li>
-      </ul>
-
-      <h3>Before Switching On</h3>
-      <ul class="list">
-        <li>Check that every cable and connector is firmly in place.</li>
-        <li>Check that the unit is not exposed to water, heat, or direct sunlight.</li>
-        <li>Check that the power supply matches the equipment.</li>
-      </ul>
-
-      <div class="note note--warn">
-        <span class="note-title">Important</span>
-        <p>
-          Do <strong>not</strong> connect or disconnect sensors while the unit is
-          powered on. Switch the power off first, unless your installer has told you
-          otherwise.
-        </p>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">3</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 4 — POWERING UP
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Powering Up</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">Starting the System</div>
-        <h2 class="ch-title">Powering Up</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        Follow this sequence whenever the system needs to be started — whether it is
-        the first installation or a restart after maintenance.
-      </p>
-
-      <ol class="steps">
-        <li>
-          <strong>Check the connections.</strong>
-          <ul class="sub">
-            <li>Sensors connected.</li>
-            <li>Camera connected, if installed.</li>
-            <li>Power supply connected.</li>
-          </ul>
-        </li>
-        <li>
-          <strong>Switch on the power supply.</strong>
-          The unit starts automatically. There is no separate start button.
-        </li>
-        <li>
-          <strong>Wait for startup.</strong>
-          Give the system a short time to initialise.
-        </li>
-        <li>
-          <strong>Watch the indicators.</strong>
-          Depending on your hardware, one or more lights may turn on or blink while
-          the system starts. This is normal.
-        </li>
-        <li>
-          <strong>Wait for the network connection.</strong>
-          The system will connect to its saved Wi-Fi network automatically.
-        </li>
-      </ol>
-
-      <div class="note note--info">
-        <span class="note-title">What You May See</span>
-        <p>
-          Immediately after power-up the dashboard may briefly show
-          <span class="pill accent">CONNECTING…</span> or
-          <span class="pill">NO TELEMETRY</span>. This is normal — wait a little
-          longer before assuming something is wrong.
-        </p>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">4</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 5 — WI-FI SETUP
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Wi-Fi Setup</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">One-Time Setup</div>
-        <h2 class="ch-title">Connecting to Wi-Fi</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        This setup is only needed once, or whenever the site's Wi-Fi details change.
-        When the system has no saved network to use, it creates its own temporary
-        Wi-Fi network so you can tell it which network to join.
-      </p>
-
-      <ol class="steps">
-        <li>
-          <strong>Power on the system.</strong>
-          If no saved Wi-Fi is available, the unit automatically starts its setup mode.
-        </li>
-        <li>
-          <strong>On your phone or laptop, open Wi-Fi settings.</strong>
-          Look for the configuration network created by the device and connect to it.
-        </li>
-        <li>
-          <strong>Open the setup page.</strong>
-          It normally appears on screen automatically. If it does not, open a web
-          browser and go to the address shown on the setup network's welcome page.
-        </li>
-        <li>
-          <strong>Choose your site's Wi-Fi.</strong>
-          <ul class="sub">
-            <li>Select the Wi-Fi network the system should use.</li>
-            <li>Enter the Wi-Fi password.</li>
-            <li>Save the settings.</li>
-          </ul>
-        </li>
-        <li>
-          <strong>Wait for the device to reconnect.</strong>
-          The temporary setup network will disappear — this means the system has
-          joined your network successfully.
-        </li>
-        <li>
-          <strong>Check the dashboard.</strong>
-          It should now show <span class="pill ok">REALTIME</span> and sensor readings
-          should appear.
-        </li>
-      </ol>
-
-      <div class="note note--info">
-        <span class="note-title">Tip</span>
-        <p>
-          If you cannot see the setup network, wait one minute and look again. The
-          device may still be starting up.
-        </p>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">5</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 6 — OPENING THE DASHBOARD
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Opening the Dashboard</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">Signing In</div>
-        <h2 class="ch-title">Opening the Dashboard</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        The dashboard is a web page. You do not need to install anything — any modern
-        browser on a phone, tablet or computer will work.
-      </p>
-
-      <ol class="steps">
-        <li>Open a web browser.</li>
-        <li>Go to the dashboard address provided by your installer.</li>
-        <li>Enter your <strong>username</strong>.</li>
-        <li>Enter your <strong>password</strong>.</li>
-        <li>Select <strong>AUTHENTICATE</strong>.</li>
-      </ol>
-
-      <p>
-        Some browsers offer a <strong>Remember session</strong> option so you do not
-        have to sign in each time.
-      </p>
-
-      <div class="note note--crit">
-        <span class="note-title">Security</span>
-        <p>
-          Do not use <strong>Remember session</strong> on a shared or public computer.
-          Always sign out when you have finished.
-        </p>
-      </div>
-
-      <h3>If the Dashboard Does Not Open</h3>
-      <ul class="list">
-        <li>Check that you typed the address correctly.</li>
-        <li>Check that your device has an internet connection.</li>
-        <li>Refresh the page and try again.</li>
-        <li>Try a different browser.</li>
-        <li>If it still does not open, contact your system administrator.</li>
-      </ul>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">6</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 7 — UNDERSTANDING THE DASHBOARD
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">The Dashboard</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">Screen Layout</div>
-        <h2 class="ch-title">Understanding the Dashboard</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        After you sign in, the dashboard shows the current condition of your site.
-        Each part of the screen covers one topic — the list below explains what you
-        will find where.
-      </p>
-
-      <h3>What Each Section Shows</h3>
-      <ul class="list">
-        <li>
-          <strong>System status</strong> — the overall condition of the site in a
-          single message, such as <em>System Normal</em> or an alert.
-        </li>
-        <li>
-          <strong>Connection status</strong> — whether the dashboard is receiving
-          fresh information right now.
-        </li>
-        <li>
-          <strong>Sensor readings</strong> — temperature, humidity, ambient light,
-          distance and motion.
-        </li>
-        <li>
-          <strong>Live camera</strong> — a live view from the camera, where one is
-          installed.
-        </li>
-        <li>
-          <strong>Alarm control</strong> — switches the audible alarm on and off.
-        </li>
-        <li>
-          <strong>Lighting control</strong> — switches the perimeter lighting on
-          and off.
-        </li>
-        <li>
-          <strong>Reports</strong> — lets you look back at recorded sensor history
-          for a chosen period.
-        </li>
-      </ul>
-
-      <div class="note note--info">
-        <span class="note-title">Good To Know</span>
-        <p>
-          The dashboard shows information, but it does not replace your site's normal
-          security and emergency procedures. Always follow those first.
-        </p>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">7</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 8 — SENSORS & READINGS
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Sensor Readings</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">Reading the Values</div>
-        <h2 class="ch-title">Sensors &amp; Readings</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        Each sensor reports one physical measurement. The dashboard shows the value
-        and, where relevant, a short plain-language interpretation.
-      </p>
-
-      <h3>Temperature</h3>
-      <p>The current temperature measured at the site.</p>
-
-      <h3>Humidity</h3>
-      <p>The current moisture level in the air.</p>
-
-      <h3>Ambient Light</h3>
-      <p>
-        How much light is present around the sensor. This value changes naturally
-        between day and night.
-      </p>
-
-      <h3>Distance</h3>
-      <p>How far away the nearest object is from the sensor.</p>
-      <p>
-        <span class="pill ok">CLEAR</span> nothing is close —
-        <span class="pill warn">PROXIMITY</span> something is nearby —
-        <span class="pill crit">OBSTRUCTION</span> something is blocking the sensor.
-      </p>
-
-      <h3>Motion</h3>
-      <p>Whether movement has been detected.</p>
-      <p>
-        <span class="pill ok">CLEAR</span> no movement —
-        <span class="pill warn">MOTION</span> movement detected —
-        <span class="pill">NO DATA</span> no reading available.
-      </p>
-
-      <div class="note note--warn">
-        <span class="note-title">Note</span>
-        <p>
-          If a sensor shows <strong>NO DATA</strong> for more than a few minutes,
-          see <em>Common Troubleshooting</em> near the back of this manual.
-        </p>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">8</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 9 — SYSTEM STATUS & ALERTS
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Status &amp; Alerts</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">What the Messages Mean</div>
-        <h2 class="ch-title">System Status &amp; Alerts</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <div class="status-list">
-        <div class="status-card ok">
-          <span class="sc-marker"></span>
-          <div class="sc-name">SYSTEM NORMAL</div>
-          <div class="sc-desc">Everything is working normally.</div>
-          <div class="sc-action">Action · None required</div>
-        </div>
-        <div class="status-card warn">
-          <span class="sc-marker"></span>
-          <div class="sc-name">REMOTE ALARM</div>
-          <div class="sc-desc">The alarm has been switched on from the dashboard.</div>
-          <div class="sc-action">Action · Check the site · Follow security procedure</div>
-        </div>
-        <div class="status-card crit">
-          <span class="sc-marker"></span>
-          <div class="sc-name">INTRUDER ALERT</div>
-          <div class="sc-desc">A possible intrusion or perimeter event has been detected.</div>
-          <div class="sc-action">Action · Follow your site security procedure</div>
-        </div>
-        <div class="status-card crit">
-          <span class="sc-marker"></span>
-          <div class="sc-name">FIRE ALERT</div>
-          <div class="sc-desc">A possible fire or very high temperature has been detected.</div>
-          <div class="sc-action">Action · Treat as an emergency immediately</div>
-        </div>
-        <div class="status-card idle">
-          <span class="sc-marker"></span>
-          <div class="sc-name">NO TELEMETRY</div>
-          <div class="sc-desc">No sensor information is reaching the dashboard.</div>
-          <div class="sc-action">Check · Power · Wi-Fi · Monitoring unit</div>
-        </div>
-        <div class="status-card crit">
-          <span class="sc-marker"></span>
-          <div class="sc-name">CONNECTION ERROR</div>
-          <div class="sc-desc">The dashboard cannot reach the monitoring system.</div>
-          <div class="sc-action">Check network · Contact administrator</div>
-        </div>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">9</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 10 — CONNECTION STATUS
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Connection Status</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">How Fresh Is the Data?</div>
-        <h2 class="ch-title">Connection Status</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        The connection indicator tells you how recent the information on screen is.
-        It is the quickest way to tell whether the system is healthy.
-      </p>
-
-      <div class="tbl-wrap">
-        <table>
-          <thead>
-            <tr><th>Message</th><th>What It Means</th><th>What To Do</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>CONNECTING…</td>
-              <td>The system is still establishing communication.</td>
-              <td>Wait a short time.</td>
-            </tr>
-            <tr>
-              <td>REALTIME</td>
-              <td>New information is arriving normally.</td>
-              <td>Nothing — this is correct.</td>
-            </tr>
-            <tr>
-              <td>STALE</td>
-              <td>Information has not updated recently.</td>
-              <td>Wait, then check Wi-Fi and internet.</td>
-            </tr>
-            <tr>
-              <td>NO DATA</td>
-              <td>No usable sensor information is available.</td>
-              <td>Check power, sensors and Wi-Fi.</td>
-            </tr>
-            <tr>
-              <td>OFFLINE</td>
-              <td>The dashboard cannot reach the monitoring system.</td>
-              <td>See <em>Common Troubleshooting</em>.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="note note--ok">
-        <span class="note-title">Normal Condition</span>
-        <p>
-          <strong>REALTIME</strong> together with <strong>SYSTEM NORMAL</strong> means
-          everything is working as it should.
-        </p>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">10</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 11 — ALARM & LIGHTING CONTROLS
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Controls</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">Remote Controls</div>
-        <h2 class="ch-title">Alarm &amp; Lighting Controls</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        The dashboard lets you switch two things at the site on and off: the audible
-        alarm and the perimeter lighting.
-      </p>
-
-      <h3>Audible Alarm</h3>
-      <ol class="steps">
-        <li>Open the dashboard and sign in.</li>
-        <li>Find the <strong>Audible Alarm</strong> control.</li>
-        <li>Switch it <strong>ON</strong> to sound the alarm.</li>
-        <li>Switch it <strong>OFF</strong> to stop the alarm.</li>
-      </ol>
-
-      <h3>Perimeter Lighting</h3>
-      <ol class="steps">
-        <li>Find the <strong>Perimeter Lighting</strong> control.</li>
-        <li>Switch it <strong>ON</strong> to turn the lights on.</li>
-        <li>Switch it <strong>OFF</strong> to turn the lights off.</li>
-      </ol>
-
-      <p>
-        If a command cannot be sent, the dashboard may show
-        <span class="pill crit">COMMAND FAILED</span>. Check the connection and try
-        again.
-      </p>
-
-      <div class="note note--warn">
-        <span class="note-title">Important</span>
-        <p>
-          Only authorised personnel should use these controls. Do not sound the alarm
-          unnecessarily.
-        </p>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">11</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 12 — LIVE CAMERA
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Live Camera</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">Camera View</div>
-        <h2 class="ch-title">Using the Live Camera</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        If your system includes a camera, the dashboard shows a live view from it.
-        When the camera is working, a <span class="pill ok">LIVE</span> indicator is
-        displayed.
-      </p>
-
-      <h3>Camera Controls</h3>
-      <ul class="list">
-        <li><strong>Pause</strong> — temporarily stops the picture on screen.</li>
-        <li><strong>Resume</strong> — starts the picture again.</li>
-        <li><strong>Mirror</strong> — flips the picture so it faces the other way.</li>
-      </ul>
-
-      <p>
-        The camera section may also show when the last image was received and whether
-        the camera is currently streaming.
-      </p>
-
-      <h3>If the Camera Is Not Available</h3>
-      <ol class="steps">
-        <li>Check that the camera unit has power.</li>
-        <li>Check the Wi-Fi connection.</li>
-        <li>Wait a minute for the camera to reconnect.</li>
-        <li>Refresh the dashboard page.</li>
-        <li>If it is still unavailable, contact your administrator.</li>
-      </ol>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">12</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 13 — REPORTS
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Reports</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">Looking Back</div>
-        <h2 class="ch-title">Reports</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        The system keeps a record of what the sensors measured over time. A report
-        lets you look back at a chosen period — useful for reviews, records, and
-        investigating what happened at a particular moment.
-      </p>
-
-      <h3>To Create a Report</h3>
-      <ol class="steps">
-        <li>Open the <strong>Security System Report</strong> section.</li>
-        <li>Choose the <strong>From</strong> date and time.</li>
-        <li>Choose the <strong>To</strong> date and time.</li>
-        <li>Select <strong>Generate Report</strong>.</li>
-        <li>Wait for the records to appear.</li>
-      </ol>
-
-      <p>
-        The most recent records are shown first. If nothing is found for the period
-        you chose, the system will say:
-        <em>“No records found in the selected range.”</em>
-      </p>
-
-      <h3>Printing or Saving a Report</h3>
-      <ol class="steps">
-        <li>Select the print option.</li>
-        <li>Choose a printer, or select <strong>Save as PDF</strong>.</li>
-        <li>Save the report where you need it.</li>
-      </ol>
-
-      <h3>Reports Are Useful For</h3>
-      <ul class="list two">
-        <li>Security reviews</li>
-        <li>Site monitoring</li>
-        <li>Incident investigation</li>
-        <li>Maintenance records</li>
-      </ul>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">13</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 14 — CHANGING WI-FI
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Changing Wi-Fi</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">New Network</div>
-        <h2 class="ch-title">Changing the Wi-Fi Network</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        If your site moves to a new Wi-Fi network, or the network name or password
-        changes, the system needs to be told the new details.
-      </p>
-
-      <h3>When This Is Needed</h3>
-      <ul class="list">
-        <li>The Wi-Fi router has been replaced.</li>
-        <li>The Wi-Fi network name has changed.</li>
-        <li>The Wi-Fi password has changed.</li>
-        <li>The system can no longer connect to the network it used before.</li>
-        <li>The device has been reset by an authorised person.</li>
-      </ul>
-
-      <h3>What To Do</h3>
-      <ol class="steps">
-        <li>Put the monitoring unit into Wi-Fi setup mode, following your installer's instructions.</li>
-        <li>On your phone or laptop, connect to the setup network created by the device.</li>
-        <li>Open the setup page in your browser.</li>
-        <li>Select the new Wi-Fi network.</li>
-        <li>Enter the new password.</li>
-        <li>Save the settings.</li>
-        <li>Wait for the system to reconnect.</li>
-        <li>Open the dashboard and confirm it shows <span class="pill ok">REALTIME</span>.</li>
-      </ol>
-
-      <div class="note note--warn">
-        <span class="note-title">Important</span>
-        <p>
-          Give the system time to reconnect before trying again. Do not repeatedly
-          reset the device.
-        </p>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">14</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 15 — TROUBLESHOOTING
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Troubleshooting</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">Common Problems</div>
-        <h2 class="ch-title">Common Troubleshooting</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <div class="tbl-wrap">
-        <table>
-          <thead>
-            <tr><th>Problem</th><th>What To Try</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>System does not power on</td>
-              <td>Check the power supply and the wall socket. Check the connections.</td>
-            </tr>
-            <tr>
-              <td>Dashboard does not open</td>
-              <td>Check your internet connection. Check the web address. Refresh and try again.</td>
-            </tr>
-            <tr>
-              <td>Cannot log in</td>
-              <td>Check your username and password. Contact your administrator if unsure.</td>
-            </tr>
-            <tr>
-              <td>Wi-Fi is not connected</td>
-              <td>Run the Wi-Fi setup again. Make sure the router is on.</td>
-            </tr>
-            <tr>
-              <td>Dashboard shows OFFLINE</td>
-              <td>Check power, Wi-Fi and internet. Wait a short time for reconnection.</td>
-            </tr>
-            <tr>
-              <td>Sensor values not appearing</td>
-              <td>Check the unit is powered and connected. Check the sensor if it is safe to do so.</td>
-            </tr>
-            <tr>
-              <td>Camera unavailable</td>
-              <td>Check camera power and Wi-Fi. Refresh the dashboard.</td>
-            </tr>
-            <tr>
-              <td>Alarm command fails</td>
-              <td>Check the connection and try again. Check you have permission to use the control.</td>
-            </tr>
-            <tr>
-              <td>Report shows no records</td>
-              <td>Choose a wider date and time range and generate again.</td>
-            </tr>
-            <tr>
-              <td>Wi-Fi password changed</td>
-              <td>Set the system up on the new network again.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="note note--info">
-        <span class="note-title">Still Not Working?</span>
-        <p>
-          Contact your system administrator and tell them what you have already tried.
-        </p>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">15</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 16 — SAFETY
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Safety</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">Important</div>
-        <h2 class="ch-title">Safety</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <p class="lede">
-        These rules protect both the equipment and the people working around it.
-        Read them once and follow them at all times.
-      </p>
-
-      <h3>Electrical Safety</h3>
-      <ul class="list">
-        <li>Do not touch electrical connections while the equipment is powered.</li>
-        <li>Check that the power supply matches the equipment before connecting it.</li>
-        <li>Keep cables tidy and out of the way of foot traffic.</li>
-        <li>Do not use damaged cables or plugs.</li>
-      </ul>
-
-      <h3>Equipment Safety</h3>
-      <ul class="list">
-        <li>Do not expose the equipment to water.</li>
-        <li>Do not expose the equipment to excessive heat or direct sunlight.</li>
-        <li>Do not open or modify the hardware.</li>
-        <li>Avoid unnecessary power cycling — the system is designed to stay powered on.</li>
-      </ul>
-
-      <h3>Operating Safety</h3>
-      <ul class="list">
-        <li>Only authorised personnel should operate the system.</li>
-        <li>Keep your username and password confidential.</li>
-        <li>Do not sound the alarm unnecessarily.</li>
-        <li>Treat <strong>FIRE ALERT</strong> as a real emergency until it is confirmed otherwise.</li>
-        <li>Treat <strong>INTRUDER ALERT</strong> as a real security event until it is confirmed otherwise.</li>
-        <li>Always follow your site's emergency and evacuation procedures.</li>
-      </ul>
-
-      <div class="note note--crit">
-        <span class="note-title">Remember</span>
-        <p>
-          The dashboard helps you monitor your site, but it does not replace emergency
-          services or your normal security procedures.
-        </p>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">16</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       PAGE 17 — QUICK REFERENCE & CONTACT
-       ============================================================ -->
-  <section class="book-page">
-    <header class="page-head">
-      <span class="ph-left">INNOVATEX IOT · User Manual</span>
-      <span class="ph-right">Quick Reference</span>
-    </header>
-
-    <div class="page-body">
-      <div class="ch-open">
-        <div class="ch-eyebrow">At A Glance</div>
-        <h2 class="ch-title">Quick Reference</h2>
-        <div class="ch-orn"><span></span><b>◆</b><span></span></div>
-      </div>
-
-      <div class="qref">
-        <div class="qcard">
-          <h4>Start the System</h4>
-          <p>Power on → wait → Wi-Fi connects → open dashboard → sign in → check REALTIME.</p>
-        </div>
-        <div class="qcard ok">
-          <h4>Normal Condition</h4>
-          <p>REALTIME + SYSTEM NORMAL + sensor readings available.</p>
-        </div>
-        <div class="qcard warn">
-          <h4>Wi-Fi Problem</h4>
-          <p>Run Wi-Fi setup → choose network → enter password → save → wait to reconnect.</p>
-        </div>
-        <div class="qcard warn">
-          <h4>Security Alert</h4>
-          <p>Check the alert, then follow your site security procedure.</p>
-        </div>
-        <div class="qcard crit">
-          <h4>Fire Alert</h4>
-          <p>Treat as an emergency. Follow your fire and evacuation procedure.</p>
-        </div>
-        <div class="qcard">
-          <h4>Dashboard Offline</h4>
-          <p>Check power → Wi-Fi → internet → unit → then contact your administrator.</p>
-        </div>
-      </div>
-
-      <h3>Your Installation Details</h3>
-      <p>Fill this in and keep it with the manual for future reference.</p>
-
-      <div class="fill">
-        <div class="fill-line"><label>Installer</label><span class="rule"></span></div>
-        <div class="fill-line"><label>Contact</label><span class="rule"></span></div>
-        <div class="fill-line"><label>Phone</label><span class="rule"></span></div>
-        <div class="fill-line"><label>Email</label><span class="rule"></span></div>
-        <div class="fill-line"><label>Install Date</label><span class="rule"></span></div>
-        <div class="fill-line"><label>Site</label><span class="rule"></span></div>
-      </div>
-    </div>
-
-    <footer class="page-foot">
-      <span class="orn">❦</span>
-      <span class="folio">17</span>
-      <span class="orn">❦</span>
-    </footer>
-  </section>
-
-  <!-- ============================================================
-       BACK COVER
-       ============================================================ -->
-  <section class="book-page back-cover" aria-label="Back cover">
-    <div class="back-cover-inner">
-
-      <div class="bc-top">
-        <div class="bc-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-4Z"/>
-            <path d="m9 12 2 2 4-4"/>
-          </svg>
-        </div>
-        <div class="bc-imprint">InnovateX IOT</div>
-      </div>
-
-      <h4>
-        This manual covers everything you need to run your INNOVATEX IOT
-        Security &amp; Environmental Monitoring system — from first power-up and
-        Wi-Fi setup through daily operation, camera viewing, reports, and
-        troubleshooting.
-      </h4>
-
-      <h4>
-        Keep this document with the installation. For support, contact your
-        authorised installer or system administrator.
-      </h4>
-
-      <div class="bc-bottom">
-        <span>Customer User Manual</span>
-        <span class="end">End of Manual</span>
-        <span>© INNOVATEX IOT</span>
-      </div>
-
-    </div>
-  </section>
-
-</div>
+<!-- ============================================================
+     BACK TO TOP
+     ============================================================ -->
+<button class="totop" id="toTop" type="button" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>
+  </svg>
+</button>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- ELEMENTS ---------- */
+  var toc        = document.getElementById('toc');
+  var navToggle  = document.getElementById('navToggle');
+  var backdrop   = document.getElementById('backdrop');
+  var progressBar= document.getElementById('progressBar');
+  var toTop      = document.getElementById('toTop');
+  var printBtn   = document.getElementById('printBtn');
+  var links      = Array.prototype.slice.call(toc.querySelectorAll('a[href^="#"]'));
+  var sections   = links
+      .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+      .filter(Boolean);
+
+  /* ---------- MOBILE DRAWER ---------- */
+  function openDrawer() {
+    toc.classList.add('open');
+    backdrop.classList.add('show');
+    navToggle.setAttribute('aria-expanded', 'true');
+  }
+  function closeDrawer() {
+    toc.classList.remove('open');
+    backdrop.classList.remove('show');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }
+  navToggle.addEventListener('click', function () {
+    toc.classList.contains('open') ? closeDrawer() : openDrawer();
+  });
+  backdrop.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeDrawer();
+  });
+
+  /* Close drawer when a link is chosen (mobile) */
+  links.forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (window.matchMedia('(max-width: 1080px)').matches) closeDrawer();
+    });
+  });
+
+  /* ---------- SCROLL SPY ---------- */
+  var activeId = null;
+
+  function setActive(id) {
+    if (id === activeId) return;
+    activeId = id;
+    links.forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      var visible = entries
+        .filter(function (en) { return en.isIntersecting; })
+        .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+      if (visible.length) setActive(visible[0].target.id);
+    }, { rootMargin: '-22% 0px -68% 0px', threshold: 0 });
+
+    sections.forEach(function (s) { spy.observe(s); });
+  }
+
+  /* ---------- PROGRESS BAR + BACK TO TOP ---------- */
+  var ticking = false;
+
+  function onScroll() {
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - doc.clientHeight;
+    var pct = max > 0 ? (doc.scrollTop / max) * 100 : 0;
+    progressBar.style.width = pct.toFixed(2) + '%';
+
+    if (doc.scrollTop > 500) toTop.classList.add('show');
+    else toTop.classList.remove('show');
+
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      window.requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  onScroll();
+
+  /* ---------- BACK TO TOP ---------- */
+  toTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ---------- PRINT ---------- */
+  printBtn.addEventListener('click', function () {
+    window.print();
+  });
+
+})();
+</script>
 
 </body>
 </html>
